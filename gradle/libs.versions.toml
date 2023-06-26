@@ -1,11 +1,12 @@
 [versions]
-idea = "231.9161.41"
+idea = "221.6008.13"
 kotlin = "1.8.22"
 sqldelight = "2.0.0-rc01"
 sql-psi = "0.4.3"
 
 [libraries]
 intellij-analysis = { module = "com.jetbrains.intellij.platform:analysis-impl", version.ref = "idea" }
+intellij-util = { module = "com.jetbrains.intellij.platform:util", version.ref = "idea" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 sql-psi-test-fixtures = { module = "com.alecstrong.sql.psi:test-fixtures", version.ref = "sql-psi" }

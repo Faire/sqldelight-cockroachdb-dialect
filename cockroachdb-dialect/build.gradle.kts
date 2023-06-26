@@ -10,6 +10,7 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.intellij.util)
     implementation(libs.sqldelight.postgresql.dialect)
 
     testImplementation(libs.sql.psi.test.fixtures)

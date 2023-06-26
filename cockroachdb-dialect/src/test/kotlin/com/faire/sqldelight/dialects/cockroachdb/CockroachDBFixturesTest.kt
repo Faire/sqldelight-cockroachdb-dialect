@@ -15,7 +15,6 @@
  */
 package com.faire.sqldelight.dialects.cockroachdb
 
-import app.cash.sqldelight.dialects.postgresql.PostgreSqlDialect
 import com.alecstrong.sql.psi.test.fixtures.FixturesTest
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -35,7 +34,7 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
   )
 
   override fun setupDialect() {
-    PostgreSqlDialect().setup()
+    CockroachDBDialect().setup()
   }
 
   companion object {
