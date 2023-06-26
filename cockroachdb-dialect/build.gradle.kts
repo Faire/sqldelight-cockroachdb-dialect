@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.spotless)
     `java-library`
 }
 
@@ -14,6 +15,17 @@ dependencies {
     implementation(libs.sqldelight.postgresql.dialect)
 
     testImplementation(libs.sql.psi.test.fixtures)
+}
+
+spotless {
+    kotlin {
+        ktlint(libs.versions.ktlint.get())
+            .editorConfigOverride(
+                mapOf(
+                    "indent_size" to 2,
+                )
+            )
+    }
 }
 
 java {

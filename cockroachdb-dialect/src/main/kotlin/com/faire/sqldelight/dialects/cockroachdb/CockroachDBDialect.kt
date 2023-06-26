@@ -8,7 +8,7 @@ class CockroachDBDialect : SqlDelightDialect by WrappedDialect(PostgreSqlDialect
 
 private class WrappedDialect(
   private val postgresqlDialect: PostgreSqlDialect,
-): SqlDelightDialect by postgresqlDialect {
+) : SqlDelightDialect by postgresqlDialect {
   override val icon = AllIcons.Providers.CockroachDB
 
   override fun setup() {
