@@ -30,5 +30,7 @@ alter_table_rules ::= (
   override = true
 }
 
-alter_table_alter_primary_key ::= ALTER PRIMARY KEY USING "COLUMNS" LP {column_name} (COMMA {column_name}) * RP
+alter_table_alter_primary_key ::= ALTER PRIMARY KEY USING "COLUMNS" LP {column_name} (COMMA {column_name}) * RP {
+  pin = 5
+}
 
