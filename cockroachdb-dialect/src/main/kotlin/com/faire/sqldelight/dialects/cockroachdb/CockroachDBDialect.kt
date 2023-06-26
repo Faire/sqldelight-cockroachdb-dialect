@@ -2,6 +2,7 @@ package com.faire.sqldelight.dialects.cockroachdb
 
 import app.cash.sqldelight.dialect.api.SqlDelightDialect
 import app.cash.sqldelight.dialects.postgresql.PostgreSqlDialect
+import com.faire.sqldelight.dialects.cockroachdb.grammar.CockroachDBParserUtil
 import com.intellij.icons.AllIcons
 
 class CockroachDBDialect : SqlDelightDialect by WrappedDialect(PostgreSqlDialect())
@@ -13,5 +14,8 @@ private class WrappedDialect(
 
   override fun setup() {
     postgresqlDialect.setup()
+
+    CockroachDBParserUtil.reset()
+    CockroachDBParserUtil.overrideSqlParser()
   }
 }

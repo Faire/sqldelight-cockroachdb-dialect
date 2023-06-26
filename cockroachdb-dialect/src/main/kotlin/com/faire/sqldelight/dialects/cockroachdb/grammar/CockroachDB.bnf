@@ -1,0 +1,34 @@
+{
+  // Specify the parent parser.
+  overrides="com.alecstrong.sql.psi.core.SqlParser"
+  elementTypeClass = "com.alecstrong.sql.psi.core.SqlElementType"
+
+  implements="com.alecstrong.sql.psi.core.psi.SqlCompositeElement"
+  extends="com.alecstrong.sql.psi.core.psi.SqlCompositeElementImpl"
+  psiClassPrefix = "CockroachDB"
+
+  parserImports=[
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.ALTER"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.COMMA"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.KEY"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.LP"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.PRIMARY"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.RP"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.USING"
+  ]
+}
+
+overrides ::= alter_table_rules
+
+alter_table_rules ::= (
+  {alter_table_add_column}
+  | {alter_table_rename_table}
+  | alter_table_alter_primary_key
+) {
+  extends = "com.alecstrong.sql.psi.core.psi.impl.SqlAlterTableRulesImpl"
+  implements = "com.alecstrong.sql.psi.core.psi.SqlAlterTableRules"
+  override = true
+}
+
+alter_table_alter_primary_key ::= ALTER PRIMARY KEY USING "COLUMNS" LP {column_name} (COMMA {column_name}) * RP
+
