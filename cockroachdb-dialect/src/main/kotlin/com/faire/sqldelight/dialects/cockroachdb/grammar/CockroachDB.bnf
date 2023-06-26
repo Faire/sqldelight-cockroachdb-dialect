@@ -9,7 +9,9 @@
 
   parserImports=[
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.ALTER"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.COLUMN"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.COMMA"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.DROP"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.KEY"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.LP"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.PRIMARY"
@@ -23,11 +25,17 @@ overrides ::= alter_table_rules
 alter_table_rules ::= (
   {alter_table_add_column}
   | {alter_table_rename_table}
+  | alter_table_drop_column
   | alter_table_alter_primary_key
 ) {
   extends = "com.alecstrong.sql.psi.core.psi.impl.SqlAlterTableRulesImpl"
   implements = "com.alecstrong.sql.psi.core.psi.SqlAlterTableRules"
   override = true
+}
+
+alter_table_drop_column ::= DROP [ COLUMN ] {column_name} {
+  mixin = "com.faire.sqldelight.dialects.cockroachdb.grammar.mixins.AlterTableDropColumnMixin"
+  pin = 1
 }
 
 alter_table_alter_primary_key ::= ALTER PRIMARY KEY USING "COLUMNS" LP {column_name} (COMMA {column_name}) * RP {
