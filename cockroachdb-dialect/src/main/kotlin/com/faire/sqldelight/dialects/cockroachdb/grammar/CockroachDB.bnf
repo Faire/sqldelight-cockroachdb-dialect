@@ -8,24 +8,40 @@
   psiClassPrefix = "CockroachDB"
 
   parserImports=[
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.ADD"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.ALTER"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.COLUMN"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.COMMA"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.CONSTRAINT"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.DROP"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.FOREIGN"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.KEY"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.LP"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.PRIMARY"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.RP"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.UNIQUE"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.USING"
   ]
 }
 
-overrides ::= alter_table_rules
+overrides ::= table_constraint
+  | alter_table_rules
+
+table_constraint ::= [ CONSTRAINT {identifier} ] (
+  ( PRIMARY KEY | UNIQUE ) [{index_name}] LP {indexed_column} [ LP {signed_number} RP ] ( COMMA {indexed_column} [ LP {signed_number} RP ] ) * RP {conflict_clause} [comment_type] |
+  {check_constraint} |
+  FOREIGN KEY LP {column_name} ( COMMA {column_name} ) * RP {foreign_key_clause}
+) {
+  extends = "com.alecstrong.sql.psi.core.psi.impl.SqlTableConstraintImpl"
+  implements = "com.alecstrong.sql.psi.core.psi.SqlTableConstraint"
+  override = true
+}
 
 alter_table_rules ::= (
   {alter_table_add_column}
   | {alter_table_rename_table}
   | alter_table_drop_column
+  | alter_table_add_constraint
   | alter_table_alter_primary_key
 ) {
   extends = "com.alecstrong.sql.psi.core.psi.impl.SqlAlterTableRulesImpl"
@@ -37,6 +53,8 @@ alter_table_drop_column ::= DROP [ COLUMN ] {column_name} {
   mixin = "com.faire.sqldelight.dialects.cockroachdb.grammar.mixins.AlterTableDropColumnMixin"
   pin = 1
 }
+
+alter_table_add_constraint ::= ADD table_constraint
 
 alter_table_alter_primary_key ::= ALTER PRIMARY KEY USING "COLUMNS" LP {column_name} (COMMA {column_name}) * RP {
   pin = 5
