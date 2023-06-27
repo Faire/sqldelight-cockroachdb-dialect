@@ -16,6 +16,6 @@ private class WrappedDialect(
     postgresqlDialect.setup()
 
     CockroachDBParserUtil.reset()
-    CockroachDBParserUtil.overrideSqlParser()
+    CockroachDBParserUtil.overridePostgreSqlParser()
   }
 }
