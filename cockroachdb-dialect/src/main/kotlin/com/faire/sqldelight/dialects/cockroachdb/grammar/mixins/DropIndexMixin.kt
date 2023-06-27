@@ -10,11 +10,6 @@ internal abstract class DropIndexMixin(
 ) : SqlDropIndexStmtImpl(node),
   SqlDropIndexStmt {
 
-  override fun name(): String {
-    stub?.let { return it.name() }
-    return indexName?.text ?: ""
-  }
-
   /**
    * Intentionally left blank to prevent validating indices.
    *
