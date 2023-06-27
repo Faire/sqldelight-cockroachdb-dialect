@@ -1,0 +1,8 @@
+CREATE TABLE foo(
+  id int NOT NULL,
+
+  bar VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+ALTER TABLE foo ALTER PRIMARY KEY USING COLUMNS (bar, id);

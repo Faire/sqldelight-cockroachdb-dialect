@@ -15,5 +15,6 @@ sql-psi-test-fixtures = { module = "com.alecstrong.sql.psi:test-fixtures", versi
 sqldelight-postgresql-dialect = { module = "app.cash.sqldelight:postgresql-dialect", version.ref = "sqldelight" }
 
 [plugins]
+grammar-kit-composer = { id = "com.alecstrong.grammar.kit.composer", version = "0.1.12" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

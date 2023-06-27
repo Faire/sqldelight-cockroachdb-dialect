@@ -1,0 +1,55 @@
+{
+  // Specify the parent parser.
+  overrides="app.cash.sqldelight.dialects.postgresql.grammar.PostgreSqlParser"
+  elementTypeClass = "com.alecstrong.sql.psi.core.SqlElementType"
+
+  implements="com.alecstrong.sql.psi.core.psi.SqlCompositeElement"
+  extends="com.alecstrong.sql.psi.core.psi.SqlCompositeElementImpl"
+  psiClassPrefix = "CockroachDB"
+
+  parserImports=[
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.ALTER"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.COMMA"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.KEY"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.LP"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.PRIMARY"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.RP"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.USING"
+
+    "static com.alecstrong.sql.psi.core.SqlParserUtil.alterTableAddColumnExt"
+    "static com.alecstrong.sql.psi.core.SqlParser.alter_table_add_column_real"
+
+    "static com.alecstrong.sql.psi.core.SqlParserUtil.alterTableRenameTableExt"
+    "static com.alecstrong.sql.psi.core.SqlParser.alter_table_rename_table_real"
+
+    "static com.alecstrong.sql.psi.core.SqlParserUtil.columnNameExt"
+    "static com.alecstrong.sql.psi.core.SqlParser.column_name_real"
+  ]
+}
+
+overrides ::= alter_table_rules
+
+alter_table_rules ::= (
+  ansi_alter_table_add_column
+  | ansi_alter_table_rename_table
+  | {alter_table_rename_column}
+  | {alter_table_drop_column}
+  | {alter_table_add_constraint}
+  | alter_table_alter_primary_key
+  | {alter_table_alter_column}
+) {
+  extends = "com.alecstrong.sql.psi.core.psi.impl.SqlAlterTableRulesImpl"
+  implements = "com.alecstrong.sql.psi.core.psi.SqlAlterTableRules"
+  override = true
+}
+
+
+alter_table_alter_primary_key ::= ALTER PRIMARY KEY USING "COLUMNS" LP ansi_column_name (COMMA ansi_column_name) * RP {
+  pin = 5
+}
+
+private ansi_alter_table_add_column ::= <<alterTableAddColumnExt <<alter_table_add_column_real>>>>
+private ansi_alter_table_rename_table ::= <<alterTableRenameTableExt <<alter_table_rename_table_real>>>>
+
+private ansi_column_name ::= <<columnNameExt <<column_name_real>>>>
+

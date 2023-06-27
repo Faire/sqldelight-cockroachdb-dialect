@@ -39,6 +39,7 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
 
   companion object {
     private val fixtures = mutableListOf(
+      "src/test/fixtures_cockroachdb",
       "src/test/fixtures_postgresql",
     )
 
