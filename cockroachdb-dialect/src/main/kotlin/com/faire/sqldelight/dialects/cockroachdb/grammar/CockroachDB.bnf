@@ -12,6 +12,7 @@
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.COMMA"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.CONSTRAINT"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.FOREIGN"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.INDEX"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.KEY"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.LP"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.PRIMARY"
@@ -55,12 +56,12 @@ overrides ::= table_constraint
   | alter_table_rules
 
 table_constraint ::= [ CONSTRAINT ansi_identifier ] (
-  ( PRIMARY KEY | UNIQUE ) [ansi_index_name] LP ansi_index_column [ LP ansi_signed_number RP ] ( COMMA ansi_index_column [ LP ansi_signed_number RP ] ) * RP ansi_conflict_clause [comment_type] |
+  ( PRIMARY KEY | [UNIQUE] INDEX | UNIQUE ) [ansi_index_name] LP ansi_index_column [ LP ansi_signed_number RP ] ( COMMA ansi_index_column [ LP ansi_signed_number RP ] ) * RP ansi_conflict_clause [comment_type] |
   ansi_check_constraint |
   FOREIGN KEY LP ansi_column_name ( COMMA ansi_column_name ) * RP ansi_foreign_key_clause
 ) {
-  extends = "com.alecstrong.sql.psi.core.psi.impl.SqlTableConstraintImpl"
-  implements = "com.alecstrong.sql.psi.core.psi.SqlTableConstraint"
+  extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlTableConstraintImpl"
+  implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlTableConstraint"
   override = true
 }
 

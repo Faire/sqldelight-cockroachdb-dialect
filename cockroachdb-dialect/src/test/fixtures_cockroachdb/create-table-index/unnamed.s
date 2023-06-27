@@ -1,0 +1,8 @@
+CREATE TABLE foo_unnamed(
+  id INT NOT NULL,
+  bar1 VARCHAR(255) NOT NULL,
+  bar2 VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id),
+  INDEX (bar1),
+  UNIQUE INDEX (bar2)
+);
