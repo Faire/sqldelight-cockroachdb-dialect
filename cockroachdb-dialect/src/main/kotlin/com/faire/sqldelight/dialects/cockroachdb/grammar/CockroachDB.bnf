@@ -62,6 +62,7 @@
 }
 
 overrides ::= table_constraint
+  | string_data_type
   | alter_table_rules
 
 table_constraint ::= [ CONSTRAINT ansi_identifier ] (
@@ -71,6 +72,10 @@ table_constraint ::= [ CONSTRAINT ansi_identifier ] (
 ) {
   extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlTableConstraintImpl"
   implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlTableConstraint"
+  override = true
+}
+
+string_data_type ::= ((( 'CHARACTER' 'VARYING' ) | 'VARCHAR' | 'CHARACTER' | 'CHAR') [ LP ansi_signed_number RP ]) | 'TEXT' | 'CITEXT' | 'STRING' {
   override = true
 }
 
