@@ -10,10 +10,13 @@
   parserImports=[
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.ALTER"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.COMMA"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.CONSTRAINT"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.FOREIGN"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.KEY"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.LP"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.PRIMARY"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.RP"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.UNIQUE"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.USING"
 
     "static com.alecstrong.sql.psi.core.SqlParserUtil.alterTableAddColumnExt"
@@ -22,12 +25,44 @@
     "static com.alecstrong.sql.psi.core.SqlParserUtil.alterTableRenameTableExt"
     "static com.alecstrong.sql.psi.core.SqlParser.alter_table_rename_table_real"
 
+    "static com.alecstrong.sql.psi.core.SqlParserUtil.checkConstraintExt"
+    "static com.alecstrong.sql.psi.core.SqlParser.check_constraint_real"
+
     "static com.alecstrong.sql.psi.core.SqlParserUtil.columnNameExt"
     "static com.alecstrong.sql.psi.core.SqlParser.column_name_real"
+
+    "static com.alecstrong.sql.psi.core.SqlParserUtil.conflictClauseExt"
+    "static com.alecstrong.sql.psi.core.SqlParser.conflict_clause_real"
+
+    "static com.alecstrong.sql.psi.core.SqlParserUtil.foreignKeyClauseExt"
+    "static com.alecstrong.sql.psi.core.SqlParser.foreign_key_clause_real"
+
+    "static com.alecstrong.sql.psi.core.SqlParserUtil.identifierExt"
+    "static com.alecstrong.sql.psi.core.SqlParser.identifier_real"
+
+    "static com.alecstrong.sql.psi.core.SqlParserUtil.indexedColumnExt"
+    "static com.alecstrong.sql.psi.core.SqlParser.indexed_column_real"
+
+    "static com.alecstrong.sql.psi.core.SqlParserUtil.indexNameExt"
+    "static com.alecstrong.sql.psi.core.SqlParser.index_name_real"
+
+    "static com.alecstrong.sql.psi.core.SqlParserUtil.signedNumberExt"
+    "static com.alecstrong.sql.psi.core.SqlParser.signed_number_real"
   ]
 }
 
-overrides ::= alter_table_rules
+overrides ::= table_constraint
+  | alter_table_rules
+
+table_constraint ::= [ CONSTRAINT ansi_identifier ] (
+  ( PRIMARY KEY | UNIQUE ) [ansi_index_name] LP ansi_index_column [ LP ansi_signed_number RP ] ( COMMA ansi_index_column [ LP ansi_signed_number RP ] ) * RP ansi_conflict_clause [comment_type] |
+  ansi_check_constraint |
+  FOREIGN KEY LP ansi_column_name ( COMMA ansi_column_name ) * RP ansi_foreign_key_clause
+) {
+  extends = "com.alecstrong.sql.psi.core.psi.impl.SqlTableConstraintImpl"
+  implements = "com.alecstrong.sql.psi.core.psi.SqlTableConstraint"
+  override = true
+}
 
 alter_table_rules ::= (
   ansi_alter_table_add_column
@@ -51,5 +86,12 @@ alter_table_alter_primary_key ::= ALTER PRIMARY KEY USING "COLUMNS" LP ansi_colu
 private ansi_alter_table_add_column ::= <<alterTableAddColumnExt <<alter_table_add_column_real>>>>
 private ansi_alter_table_rename_table ::= <<alterTableRenameTableExt <<alter_table_rename_table_real>>>>
 
+private ansi_check_constraint ::= <<checkConstraintExt <<check_constraint_real>>>>
 private ansi_column_name ::= <<columnNameExt <<column_name_real>>>>
+private ansi_conflict_clause ::= <<conflictClauseExt <<conflict_clause_real>>>>
+private ansi_foreign_key_clause ::= <<foreignKeyClauseExt <<foreign_key_clause_real>>>>
+private ansi_identifier ::= <<identifierExt <<identifier_real>>>>
+private ansi_index_column ::= <<indexedColumnExt <<indexed_column_real>>>>
+private ansi_index_name ::= <<indexNameExt <<index_name_real>>>>
+private ansi_signed_number ::= <<signedNumberExt <<signed_number_real>>>>
 
