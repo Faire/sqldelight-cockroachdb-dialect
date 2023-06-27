@@ -38,8 +38,8 @@ alter_table_rules ::= (
   | alter_table_alter_primary_key
   | {alter_table_alter_column}
 ) {
-  extends = "com.alecstrong.sql.psi.core.psi.impl.SqlAlterTableRulesImpl"
-  implements = "com.alecstrong.sql.psi.core.psi.SqlAlterTableRules"
+  extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlAlterTableRulesImpl"
+  implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlAlterTableRules"
   override = true
 }
 
