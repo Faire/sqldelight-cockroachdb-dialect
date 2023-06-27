@@ -43,6 +43,10 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
       "src/test/fixtures_postgresql",
     )
 
+    private val excludedAnsiFixtures = listOf(
+      "index-migration", // Excluded since we're not validating indices when dropping them.
+    )
+
     // Used by Parameterized JUnit runner reflectively.
     @Parameterized.Parameters(name = "{0}")
     @JvmStatic
@@ -53,7 +57,10 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
           .map { arrayOf<Any>(it.name, it) }
       }
 
-      return projectFixtures + ansiFixtures
+      val extraAnsiFixtures = ansiFixtures
+        .filter { (it[0] as String) !in excludedAnsiFixtures }
+
+      return projectFixtures + extraAnsiFixtures
     }
   }
 }
