@@ -72,7 +72,7 @@ overrides ::= table_constraint
   | alter_table_rules
 
 table_constraint ::= [ CONSTRAINT ansi_identifier ] (
-  ( PRIMARY KEY | [UNIQUE] INDEX | UNIQUE ) [ansi_index_name] LP ansi_indexed_column [ LP ansi_signed_number RP ] ( COMMA ansi_indexed_column [ LP ansi_signed_number RP ] ) * RP ansi_conflict_clause [comment_type] |
+  ( PRIMARY KEY | [UNIQUE] INDEX | UNIQUE ) [ansi_index_name] LP ansi_indexed_column [ LP ansi_signed_number RP ] ( COMMA ansi_indexed_column [ LP ansi_signed_number RP ] ) * RP ['STORING' LP ansi_column_name ( COMMA ansi_column_name ) * RP ] ansi_conflict_clause [comment_type] |
   ansi_check_constraint |
   FOREIGN KEY LP ansi_column_name ( COMMA ansi_column_name ) * RP ansi_foreign_key_clause
 ) {
@@ -85,7 +85,7 @@ string_data_type ::= ((( 'CHARACTER' 'VARYING' ) | 'VARCHAR' | 'CHARACTER' | 'CH
   override = true
 }
 
-create_index_stmt ::= CREATE [ UNIQUE ] INDEX [ IF NOT EXISTS ] [ ansi_database_name DOT ] ansi_index_name ON ansi_table_name LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP [ WHERE <<expr '-1'>> ] {
+create_index_stmt ::= CREATE [ UNIQUE ] INDEX [ IF NOT EXISTS ] [ ansi_database_name DOT ] ansi_index_name ON ansi_table_name LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP ['STORING' LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP ] [ WHERE <<expr '-1'>> ] {
   extends = "com.alecstrong.sql.psi.core.psi.impl.SqlCreateIndexStmtImpl"
   implements = "com.alecstrong.sql.psi.core.psi.SqlCreateIndexStmt"
   pin = 6

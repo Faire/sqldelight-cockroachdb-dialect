@@ -1,0 +1,2 @@
+1.s line 6:37 - No column found with name missing
+1.s line 9:49 - No column found with name missing
