@@ -9,6 +9,7 @@
 
   parserImports=[
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.ALTER"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.CREATE"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.COMMA"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.CONSTRAINT"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.DROP"
@@ -18,10 +19,13 @@
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.INDEX"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.KEY"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.LP"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.NOT"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.ON"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.PRIMARY"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.RP"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.UNIQUE"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.USING"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.WHERE"
 
     "static com.alecstrong.sql.psi.core.SqlParserUtil.alterTableAddColumnExt"
     "static com.alecstrong.sql.psi.core.SqlParser.alter_table_add_column_real"
@@ -40,6 +44,8 @@
 
     "static com.alecstrong.sql.psi.core.SqlParserUtil.databaseNameExt"
     "static com.alecstrong.sql.psi.core.SqlParser.database_name_real"
+
+    "static com.alecstrong.sql.psi.core.SqlParser.expr"
 
     "static com.alecstrong.sql.psi.core.SqlParserUtil.foreignKeyClauseExt"
     "static com.alecstrong.sql.psi.core.SqlParser.foreign_key_clause_real"
@@ -66,7 +72,7 @@ overrides ::= table_constraint
   | alter_table_rules
 
 table_constraint ::= [ CONSTRAINT ansi_identifier ] (
-  ( PRIMARY KEY | [UNIQUE] INDEX | UNIQUE ) [ansi_index_name] LP ansi_index_column [ LP ansi_signed_number RP ] ( COMMA ansi_index_column [ LP ansi_signed_number RP ] ) * RP ansi_conflict_clause [comment_type] |
+  ( PRIMARY KEY | [UNIQUE] INDEX | UNIQUE ) [ansi_index_name] LP ansi_indexed_column [ LP ansi_signed_number RP ] ( COMMA ansi_indexed_column [ LP ansi_signed_number RP ] ) * RP ansi_conflict_clause [comment_type] |
   ansi_check_constraint |
   FOREIGN KEY LP ansi_column_name ( COMMA ansi_column_name ) * RP ansi_foreign_key_clause
 ) {
@@ -77,6 +83,12 @@ table_constraint ::= [ CONSTRAINT ansi_identifier ] (
 
 string_data_type ::= ((( 'CHARACTER' 'VARYING' ) | 'VARCHAR' | 'CHARACTER' | 'CHAR') [ LP ansi_signed_number RP ]) | 'TEXT' | 'CITEXT' | 'STRING' {
   override = true
+}
+
+create_index_stmt ::= CREATE [ UNIQUE ] INDEX [ IF NOT EXISTS ] [ ansi_database_name DOT ] ansi_index_name ON ansi_table_name LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP [ WHERE <<expr '-1'>> ] {
+  extends = "com.alecstrong.sql.psi.core.psi.impl.SqlCreateIndexStmtImpl"
+  implements = "com.alecstrong.sql.psi.core.psi.SqlCreateIndexStmt"
+  pin = 6
 }
 
 drop_index_stmt ::= DROP INDEX [ IF EXISTS ] [ ansi_table_name '@' ] ansi_index_name {
@@ -113,7 +125,7 @@ private ansi_conflict_clause ::= <<conflictClauseExt <<conflict_clause_real>>>>
 private ansi_database_name ::= <<databaseNameExt <<database_name_real>>>>
 private ansi_foreign_key_clause ::= <<foreignKeyClauseExt <<foreign_key_clause_real>>>>
 private ansi_identifier ::= <<identifierExt <<identifier_real>>>>
-private ansi_index_column ::= <<indexedColumnExt <<indexed_column_real>>>>
+private ansi_indexed_column ::= <<indexedColumnExt <<indexed_column_real>>>>
 private ansi_index_name ::= <<indexNameExt <<index_name_real>>>>
 private ansi_signed_number ::= <<signedNumberExt <<signed_number_real>>>>
 private ansi_table_name ::= <<tableNameExt <<table_name_real>>>>

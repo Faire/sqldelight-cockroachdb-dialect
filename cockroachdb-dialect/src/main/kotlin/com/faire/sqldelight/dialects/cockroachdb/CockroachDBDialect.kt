@@ -25,6 +25,9 @@ private class WrappedDialect(
 }
 
 private fun CockroachDBParserUtil.overrideSqlParser() {
+  SqlParserUtil.create_index_stmt = GeneratedParserUtilBase.Parser { psiBuilder, i ->
+    create_index_stmt?.parse(psiBuilder, i) ?: CockroachDBParser.create_index_stmt_real(psiBuilder, i)
+  }
   SqlParserUtil.drop_index_stmt = GeneratedParserUtilBase.Parser { psiBuilder, i ->
     drop_index_stmt?.parse(psiBuilder, i) ?: CockroachDBParser.drop_index_stmt_real(psiBuilder, i)
   }
