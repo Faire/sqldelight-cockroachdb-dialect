@@ -9,12 +9,17 @@
 
   parserImports=[
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.ALTER"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.ALWAYS"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.AS"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.BY"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.CREATE"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.COMMA"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.CONSTRAINT"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.DEFAULT"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.DROP"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.EXISTS"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.FOREIGN"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.GENERATED"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.IF"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.INDEX"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.KEY"
@@ -69,6 +74,7 @@
 
 overrides ::= table_constraint
   | string_data_type
+  | generated_clause
   | alter_table_rules
 
 table_constraint ::= [ CONSTRAINT ansi_identifier ] (
@@ -90,6 +96,16 @@ create_index_stmt ::= CREATE [ UNIQUE ] INDEX [ IF NOT EXISTS ] [ ansi_database_
   implements = "com.alecstrong.sql.psi.core.psi.SqlCreateIndexStmt"
   pin = 6
 }
+
+generated_clause ::= (postgres_generated_clause | cockroach_generated_clause) {
+  extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlGeneratedClauseImpl"
+  implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlGeneratedClause"
+  override = true
+}
+
+private postgres_generated_clause ::= GENERATED ( (ALWAYS AS LP <<expr '-1'>> RP 'STORED') | ( (ALWAYS | BY DEFAULT) AS {identity_clause} ) )
+
+private cockroach_generated_clause ::= AS LP <<expr '-1'>> RP ('STORED' | 'VIRTUAL')
 
 drop_index_stmt ::= DROP INDEX [ IF EXISTS ] [ ansi_table_name '@' ] ansi_index_name {
   mixin = "com.faire.sqldelight.dialects.cockroachdb.grammar.mixins.DropIndexMixin"
