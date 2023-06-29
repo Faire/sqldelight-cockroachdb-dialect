@@ -1,0 +1,13 @@
+CREATE TABLE foo(
+  id INT NOT NULL,
+  count INT NOT NULL,
+  is_positive BOOLEAN NOT NULL AS (count > 0) STORED,
+  is_negative BOOLEAN NOT NULL AS (count < 0) VIRTUAL,
+  PRIMARY KEY(id)
+);
+
+ALTER TABLE foo
+ADD COLUMN is_zero BOOLEAN NOT NULL AS (count = 0) STORED;
+
+ALTER TABLE foo
+ADD COLUMN is_even BOOLEAN NOT NULL AS (count % 2 = 0) VIRTUAL;

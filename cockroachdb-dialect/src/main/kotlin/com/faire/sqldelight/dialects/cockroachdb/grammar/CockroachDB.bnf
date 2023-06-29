@@ -97,11 +97,15 @@ create_index_stmt ::= CREATE [ UNIQUE ] INDEX [ IF NOT EXISTS ] [ ansi_database_
   pin = 6
 }
 
-generated_clause ::= GENERATED ( (ALWAYS AS LP <<expr '-1'>> RP 'STORED') | ( (ALWAYS | BY DEFAULT) AS {identity_clause} ) ) {
+generated_clause ::= (postgres_generated_clause | cockroach_generated_clause) {
   extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlGeneratedClauseImpl"
   implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlGeneratedClause"
   override = true
 }
+
+private postgres_generated_clause ::= GENERATED ( (ALWAYS AS LP <<expr '-1'>> RP 'STORED') | ( (ALWAYS | BY DEFAULT) AS {identity_clause} ) )
+
+private cockroach_generated_clause ::= AS LP <<expr '-1'>> RP ('STORED' | 'VIRTUAL')
 
 drop_index_stmt ::= DROP INDEX [ IF EXISTS ] [ ansi_table_name '@' ] ansi_index_name {
   mixin = "com.faire.sqldelight.dialects.cockroachdb.grammar.mixins.DropIndexMixin"
