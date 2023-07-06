@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.grammar.kit.composer)
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.spotless)
-    `java-library`
 }
 
 repositories {
@@ -36,11 +35,5 @@ spotless {
                     "indent_size" to 2,
                 )
             )
-    }
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
