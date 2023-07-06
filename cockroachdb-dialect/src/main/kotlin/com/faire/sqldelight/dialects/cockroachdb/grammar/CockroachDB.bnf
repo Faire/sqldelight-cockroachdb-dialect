@@ -91,10 +91,10 @@ string_data_type ::= ((( 'CHARACTER' 'VARYING' ) | 'VARCHAR' | 'CHARACTER' | 'CH
   override = true
 }
 
-create_index_stmt ::= CREATE [ UNIQUE ] INDEX [ IF NOT EXISTS ] [ ansi_database_name DOT ] ansi_index_name ON ansi_table_name LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP ['STORING' LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP ] [ WHERE <<expr '-1'>> ] {
-  extends = "com.alecstrong.sql.psi.core.psi.impl.SqlCreateIndexStmtImpl"
+create_index_stmt ::= CREATE [ UNIQUE ] INDEX [ IF NOT EXISTS ] [ [ ansi_database_name DOT ] ansi_index_name ] ON ansi_table_name LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP ['STORING' LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP ] [ WHERE <<expr '-1'>> ] {
+  extends = "com.faire.sqldelight.dialects.cockroachdb.grammar.mixins.CreateIndexMixin"
   implements = "com.alecstrong.sql.psi.core.psi.SqlCreateIndexStmt"
-  pin = 6
+  pin = 4
 }
 
 generated_clause ::= (postgres_generated_clause | cockroach_generated_clause) {

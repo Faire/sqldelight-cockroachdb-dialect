@@ -1,0 +1,9 @@
+CREATE TABLE foo(
+  id INT NOT NULL,
+  bar VARCHAR(255) NOT NULL,
+  token VARCHAR(25) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE INDEX ON foo (bar);
+CREATE UNIQUE INDEX ON foo (token);
