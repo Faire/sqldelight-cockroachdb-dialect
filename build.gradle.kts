@@ -1,3 +1,7 @@
+plugins {
+  java
+}
+
 tasks.register("installGitHooks") {
   doLast {
     val gitHooksDir = File(rootDir, ".git/hooks")
@@ -18,6 +22,15 @@ tasks.register("installGitHooks") {
 }
 
 allprojects {
+  apply {
+    plugin("java")
+  }
+
+  java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+  }
+
   configurations.configureEach {
     exclude(group = "com.jetbrains.rd")
     exclude(group = "com.github.jetbrains", module = "jetCheck")
@@ -29,5 +42,14 @@ allprojects {
     exclude(group = "ai.grazie.model")
     exclude(group = "ai.grazie.utils")
     exclude(group = "ai.grazie.nlp")
+  }
+
+  repositories {
+    mavenCentral()
+    maven("https://www.jetbrains.com/intellij-repository/releases")
+    maven("https://cache-redirector.jetbrains.com/intellij-dependencies")
+    maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
+    maven("https://packages.jetbrains.team/maven/p/dpgpv/maven")
+    gradlePluginPortal()
   }
 }
