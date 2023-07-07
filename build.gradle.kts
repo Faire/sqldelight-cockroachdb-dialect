@@ -45,15 +45,29 @@ allprojects {
   }
 }
 
+val ktlintEditorConfigOverride = mapOf(
+  "indent_size" to 2,
+)
+
 spotless {
   kotlin {
     target("**/*.kt")
     targetExclude("**/build/**/*.*")
     ktlint(libs.versions.ktlint.get())
-      .editorConfigOverride(
-        mapOf(
-          "indent_size" to 2,
-        )
-      )
+      .editorConfigOverride(ktlintEditorConfigOverride)
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+  kotlinGradle {
+    target("**/*.gradle.kts")
+    ktlint(libs.versions.ktlint.get())
+      .editorConfigOverride(ktlintEditorConfigOverride)
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+  format("misc") {
+    target("**/test/fixtures_*/**/*.*")
+    trimTrailingWhitespace()
+    endWithNewline()
   }
 }

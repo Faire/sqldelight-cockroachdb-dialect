@@ -39,5 +39,3 @@ FROM (
   INNER JOIN test AS otherTest
   ON otherTest.id = test2.id2
 );
-
-

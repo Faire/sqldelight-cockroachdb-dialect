@@ -7,4 +7,3 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "buildLogic"
-
