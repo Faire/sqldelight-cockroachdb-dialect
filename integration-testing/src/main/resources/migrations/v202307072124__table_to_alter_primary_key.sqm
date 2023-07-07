@@ -1,0 +1,6 @@
+CREATE TABLE alter_primary_key(
+  id int NOT NULL,
+
+  bar VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id)
+);
