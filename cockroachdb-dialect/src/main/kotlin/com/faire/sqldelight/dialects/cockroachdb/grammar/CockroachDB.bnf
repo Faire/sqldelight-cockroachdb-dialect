@@ -88,6 +88,8 @@ table_constraint ::= [ CONSTRAINT ansi_identifier ] (
 }
 
 string_data_type ::= ((( 'CHARACTER' 'VARYING' ) | 'VARCHAR' | 'CHARACTER' | 'CHAR') [ LP ansi_signed_number RP ]) | 'TEXT' | 'CITEXT' | 'STRING' {
+  extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlStringDataTypeImpl"
+  implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlStringDataType"
   override = true
 }
 
