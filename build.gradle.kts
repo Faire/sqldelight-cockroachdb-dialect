@@ -1,5 +1,5 @@
 plugins {
-  java
+  alias(libs.plugins.spotless)
 }
 
 tasks.register("installGitHooks") {
@@ -22,15 +22,6 @@ tasks.register("installGitHooks") {
 }
 
 allprojects {
-  apply {
-    plugin("java")
-  }
-
-  java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-  }
-
   configurations.configureEach {
     exclude(group = "com.jetbrains.rd")
     exclude(group = "com.github.jetbrains", module = "jetCheck")
@@ -51,5 +42,18 @@ allprojects {
     maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
     maven("https://packages.jetbrains.team/maven/p/dpgpv/maven")
     gradlePluginPortal()
+  }
+}
+
+spotless {
+  kotlin {
+    target("**/*.kt")
+    targetExclude("**/build/**/*.*")
+    ktlint(libs.versions.ktlint.get())
+      .editorConfigOverride(
+        mapOf(
+          "indent_size" to 2,
+        )
+      )
   }
 }

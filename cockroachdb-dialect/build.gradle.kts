@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.grammar.kit.composer)
     alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.spotless)
 }
 
 grammarKit {
@@ -15,16 +14,4 @@ dependencies {
 
     testImplementation(libs.intellij.analysis)
     testImplementation(libs.sql.psi.test.fixtures)
-}
-
-spotless {
-    kotlin {
-        targetExclude("**/build/**/*.*")
-        ktlint(libs.versions.ktlint.get())
-            .editorConfigOverride(
-                mapOf(
-                    "indent_size" to 2,
-                )
-            )
-    }
 }
