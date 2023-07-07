@@ -1,3 +1,7 @@
+plugins {
+  alias(libs.plugins.spotless)
+}
+
 tasks.register("installGitHooks") {
   doLast {
     val gitHooksDir = File(rootDir, ".git/hooks")
@@ -29,5 +33,41 @@ allprojects {
     exclude(group = "ai.grazie.model")
     exclude(group = "ai.grazie.utils")
     exclude(group = "ai.grazie.nlp")
+  }
+
+  repositories {
+    mavenCentral()
+    maven("https://www.jetbrains.com/intellij-repository/releases")
+    maven("https://cache-redirector.jetbrains.com/intellij-dependencies")
+    maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
+    maven("https://packages.jetbrains.team/maven/p/dpgpv/maven")
+    gradlePluginPortal()
+  }
+}
+
+val ktlintEditorConfigOverride = mapOf(
+  "indent_size" to 2,
+)
+
+spotless {
+  kotlin {
+    target("**/*.kt")
+    targetExclude("**/build/**/*.*")
+    ktlint(libs.versions.ktlint.get())
+      .editorConfigOverride(ktlintEditorConfigOverride)
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+  kotlinGradle {
+    target("**/*.gradle.kts")
+    ktlint(libs.versions.ktlint.get())
+      .editorConfigOverride(ktlintEditorConfigOverride)
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+  format("misc") {
+    target("**/test/fixtures_*/**/*.*")
+    trimTrailingWhitespace()
+    endWithNewline()
   }
 }
