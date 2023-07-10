@@ -1,5 +1,10 @@
 plugins {
   alias(libs.plugins.grammar.kit.composer)
+  `maven-publish`
+}
+
+repositories {
+  maven("https://jitpack.io")
 }
 
 grammarKit {
@@ -13,4 +18,15 @@ dependencies {
 
   testImplementation(libs.intellij.analysis)
   testImplementation(libs.sql.psi.test.fixtures)
+}
+
+publishing {
+  publications {
+    create<MavenPublication>("maven") {
+      groupId = "com.faire"
+      artifactId = "sqldelight-cockroachdb-dialect"
+
+      from(components["java"])
+    }
+  }
 }
