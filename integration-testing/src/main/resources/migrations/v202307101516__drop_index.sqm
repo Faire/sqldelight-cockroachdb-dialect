@@ -14,4 +14,3 @@ CREATE TABLE drop_index_two(
 
 DROP INDEX drop_index_one@idx_foo;
 DROP INDEX drop_index_two@idx_foo;
-

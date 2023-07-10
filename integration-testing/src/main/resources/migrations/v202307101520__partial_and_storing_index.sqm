@@ -7,4 +7,3 @@ CREATE TABLE partial_and_storing(
 );
 
 CREATE INDEX idx_storing2 ON partial_and_storing (bar) STORING (foo) WHERE bar = TRUE;
-
