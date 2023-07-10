@@ -1,0 +1,9 @@
+CREATE TABLE unnamed_index(
+  id INT NOT NULL,
+  foo VARCHAR(255) NOT NULL,
+  bar INT NOT NULL,
+  PRIMARY KEY (id),
+  INDEX (foo)
+);
+
+CREATE INDEX ON unnamed_index (bar);
