@@ -1,1 +1,0 @@
-ALTER TABLE alter_primary_key ALTER PRIMARY KEY USING COLUMNS (bar, id);

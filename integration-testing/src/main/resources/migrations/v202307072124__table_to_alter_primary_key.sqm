@@ -4,3 +4,5 @@ CREATE TABLE alter_primary_key(
   bar VARCHAR(255) NOT NULL,
   PRIMARY KEY (id)
 );
+
+ALTER TABLE alter_primary_key ALTER PRIMARY KEY USING COLUMNS (bar, id);
