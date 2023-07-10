@@ -12,6 +12,8 @@ grammarKit {
 }
 
 dependencies {
+  implementation("com.github.Faire:sqldelight-cockroachdb-dialect:main-SNAPSHOT")
+
   compileOnly(libs.intellij.analysis)
   implementation(libs.intellij.util)
   api(libs.sqldelight.postgresql.dialect)
