@@ -1,0 +1,9 @@
+CREATE TABLE partial_and_storing(
+  id INT NOT NULL,
+  foo INT NOT NULL,
+  bar BOOL NOT NULL,
+  PRIMARY KEY (id),
+  INDEX idx_storing1 (foo) STORING (bar) WHERE foo > 0
+);
+
+CREATE INDEX idx_storing2 ON partial_and_storing (bar) STORING (foo) WHERE bar = TRUE;

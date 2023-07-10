@@ -66,7 +66,7 @@ spotless {
     endWithNewline()
   }
   format("misc") {
-    target("**/test/fixtures_*/**/*.*")
+    target("**/test/fixtures_*/**/*.*", "**/*.sqm", "**/*.sq")
     trimTrailingWhitespace()
     endWithNewline()
   }

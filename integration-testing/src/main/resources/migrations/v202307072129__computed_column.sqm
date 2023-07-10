@@ -1,0 +1,8 @@
+CREATE TABLE computed_column(
+  id int NOT NULL,
+
+  quantity INT NOT NULL,
+
+  is_positive BOOLEAN NOT NULL AS (quantity > 0) STORED,
+  PRIMARY KEY (id)
+);

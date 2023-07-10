@@ -1,0 +1,6 @@
+create:
+INSERT INTO string_type (id, name) VALUES ?;
+
+selectAll:
+SELECT *
+FROM string_type;
