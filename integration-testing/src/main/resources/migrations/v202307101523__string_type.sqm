@@ -1,0 +1,5 @@
+CREATE TABLE string_type(
+  id INT NOT NULL,
+  name STRING NOT NULL,
+  PRIMARY KEY (id)
+);

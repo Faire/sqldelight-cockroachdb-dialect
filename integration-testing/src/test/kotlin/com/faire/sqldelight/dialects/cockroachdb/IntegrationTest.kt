@@ -1,6 +1,7 @@
 package com.faire.sqldelight.dialects.cockroachdb
 
 import Computed_column
+import String_type
 import app.cash.sqldelight.driver.jdbc.JdbcDriver
 import app.cash.sqldelight.driver.jdbc.asJdbcDriver
 import org.assertj.core.api.Assertions.assertThat
@@ -31,6 +32,16 @@ class IntegrationTest {
     assertThat(
       database.computedColumnQueries.queryByComputedColumn(is_positive = true).executeAsList(),
     ).containsExactlyInAnyOrder(1, 3)
+  }
+
+  @Test
+  fun `persist STRING type`() {
+    database.stringTypeQueries.create(String_type(1, "hello"))
+    database.stringTypeQueries.create(String_type(2, "world"))
+
+    assertThat(
+      database.stringTypeQueries.selectAll().executeAsList().map { it.name },
+    ).containsExactlyInAnyOrder("hello", "world")
   }
 
   companion object {
