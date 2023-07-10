@@ -45,6 +45,9 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
 
     private val excludedAnsiFixtures = listOf(
       "index-migration", // Excluded since we're not validating indices when dropping them.
+      "create-table-validation-failures", // Excluded since we're not validating indices when creating them.
+      "create-if-not-exists", // Excluded since we're not validating indices when creating them.
+      "create-index-collision", // Excluded since we're not validating indices when creating them.
     )
 
     // Used by Parameterized JUnit runner reflectively.

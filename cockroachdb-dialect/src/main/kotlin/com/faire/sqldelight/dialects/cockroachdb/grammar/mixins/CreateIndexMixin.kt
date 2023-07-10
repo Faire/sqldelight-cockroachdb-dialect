@@ -11,20 +11,12 @@ internal abstract class CreateIndexMixin(
 ) : SqlCreateIndexStmtImpl(node),
   SqlCreateIndexStmt {
   /**
-   * In CockroachDB, an index name doesn't have to be specified. For now try/catch and do nothing.
+   * In CockroachDB, an index name doesn't have to be specified. For now disable tracking the index.
    */
   override fun modifySchema(schema: Schema) {
-    try {
-      super.modifySchema(schema)
-    } catch (e: AssertionError) {
-      // Hack to support unnamed indices.
-    }
+    // Intentionally left blank.
   }
   override fun annotate(annotationHolder: SqlAnnotationHolder) {
-    try {
-      super.annotate(annotationHolder)
-    } catch (e: AssertionError) {
-      // Hack to support unnamed indices.
-    }
+    // Intentionally left blank.
   }
 }
