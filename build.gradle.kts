@@ -1,4 +1,5 @@
 plugins {
+  alias(libs.plugins.kotlin.jvm) apply false
   alias(libs.plugins.spotless)
 }
 
@@ -42,6 +43,12 @@ allprojects {
     maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
     maven("https://packages.jetbrains.team/maven/p/dpgpv/maven")
     gradlePluginPortal()
+  }
+}
+
+subprojects {
+  apply {
+    plugin("org.jetbrains.kotlin.jvm")
   }
 }
 
