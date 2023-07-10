@@ -1,6 +1,5 @@
 plugins {
   alias(libs.plugins.grammar.kit.composer)
-  alias(libs.plugins.kotlin.jvm)
 }
 
 grammarKit {
