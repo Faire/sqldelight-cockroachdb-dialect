@@ -38,11 +38,6 @@ allprojects {
 
   repositories {
     mavenCentral()
-    maven("https://www.jetbrains.com/intellij-repository/releases")
-    maven("https://cache-redirector.jetbrains.com/intellij-dependencies")
-    maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
-    maven("https://packages.jetbrains.team/maven/p/dpgpv/maven")
-    gradlePluginPortal()
   }
 }
 
