@@ -9,11 +9,11 @@ sql-psi = "0.4.5"
 [libraries]
 assertj-core = { module = "org.assertj:assertj-core", version = "3.11.1" }
 intellij-analysis = { module = "com.jetbrains.intellij.platform:analysis-impl", version.ref = "idea" }
-intellij-util = { module = "com.jetbrains.intellij.platform:util", version.ref = "idea" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 postgres-jdbc-driver = { module = "org.postgresql:postgresql", version = "42.5.4" }
 sql-psi-test-fixtures = { module = "com.alecstrong.sql.psi:test-fixtures", version.ref = "sql-psi" }
+sqldelight-compiler-env = { module = "app.cash.sqldelight:compiler-env", version.ref = "sqldelight" }
 sqldelight-jdbc-driver = { module = "app.cash.sqldelight:jdbc-driver", version.ref = "sqldelight" }
 sqldelight-postgresql-dialect = { module = "app.cash.sqldelight:postgresql-dialect", version.ref = "sqldelight" }
 testcontainers-cockroachdb = { module = "org.testcontainers:cockroachdb", version = "1.18.3" }
