@@ -4,7 +4,7 @@ on:
   pull_request:
 
 jobs:
-  lint-project:
+  project-ci:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project sources
@@ -19,4 +19,4 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: build
+          arguments: test
