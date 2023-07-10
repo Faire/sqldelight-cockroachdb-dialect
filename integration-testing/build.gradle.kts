@@ -4,8 +4,10 @@ plugins {
 }
 
 dependencies {
+  api(libs.sqldelight.jdbc.driver)
+
+  testImplementation(libs.assertj.core)
   testImplementation(libs.postgres.jdbc.driver)
-  testImplementation(libs.sqldelight.jdbc.driver)
   testImplementation(libs.testcontainers.cockroachdb)
 }
 
@@ -19,6 +21,7 @@ sqldelight {
 
       srcDirs(
         "src/main/resources/migrations",
+        "src/main/sqldelight",
       )
     }
   }

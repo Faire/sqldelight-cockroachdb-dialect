@@ -1,0 +1,7 @@
+create:
+INSERT INTO computed_column (id, quantity) VALUES ?;
+
+queryByComputedColumn:
+SELECT id
+FROM computed_column
+WHERE is_positive = :is_positive;
