@@ -1,0 +1,17 @@
+CREATE TABLE drop_index_one(
+  id INT NOT NULL,
+  foo VARCHAR(255) NOT NULL,
+  PRIMARY KEY(id),
+  INDEX idx_foo (foo)
+);
+
+CREATE TABLE drop_index_two(
+  id INT NOT NULL,
+  foo VARCHAR(255) NOT NULL,
+  PRIMARY KEY(id),
+  INDEX idx_foo (foo)
+);
+
+DROP INDEX drop_index_one@idx_foo;
+DROP INDEX drop_index_two@idx_foo;
+
