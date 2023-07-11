@@ -13,3 +13,4 @@ This doesn't fully cover the whole SQL syntax of CockroachDB. It's a work in pro
 * Supports storing index
 * Supports unnamed index
   * Index tracking and validation has been disabled until there's a way to track unnamed indexes
+* Blob types (BYTEA, BLOB, BYTES)

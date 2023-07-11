@@ -1,0 +1,6 @@
+create:
+INSERT INTO blob_data_types VALUES ?;
+
+selectAll:
+SELECT *
+FROM blob_data_types;

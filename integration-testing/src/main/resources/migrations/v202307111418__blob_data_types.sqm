@@ -1,0 +1,7 @@
+CREATE TABLE blob_data_types(
+  id INT NOT NULL,
+  bytea_col BYTEA NOT NULL,
+  blob_col BLOB NOT NULL,
+  bytes_col BYTES NOT NULL,
+  PRIMARY KEY (id)
+);

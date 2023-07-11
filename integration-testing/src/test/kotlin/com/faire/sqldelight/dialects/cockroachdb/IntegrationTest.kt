@@ -1,5 +1,6 @@
 package com.faire.sqldelight.dialects.cockroachdb
 
+import Blob_data_types
 import Computed_column
 import String_type
 import app.cash.sqldelight.driver.jdbc.JdbcDriver
@@ -42,6 +43,25 @@ class IntegrationTest {
     assertThat(
       database.stringTypeQueries.selectAll().executeAsList().map { it.name },
     ).containsExactlyInAnyOrder("hello", "world")
+  }
+
+  @Test
+  fun `persist BLOB types`() {
+    val charset = Charsets.UTF_8
+    database.blobTypesQueries.create(
+      Blob_data_types(
+        id = 1,
+        bytea_col = "foo".toByteArray(charset),
+        blob_col = "bar".toByteArray(charset),
+        bytes_col = "baz".toByteArray(charset),
+      ),
+    )
+    with(database.blobTypesQueries.selectAll().executeAsOne()) {
+      assertThat(id).isEqualTo(1)
+      assertThat(bytea_col.toString(charset)).isEqualTo("foo")
+      assertThat(blob_col.toString(charset)).isEqualTo("bar")
+      assertThat(bytes_col.toString(charset)).isEqualTo("baz")
+    }
   }
 
   companion object {
