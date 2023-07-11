@@ -1,0 +1,7 @@
+CREATE TABLE foo(
+  id INT NOT NULL,
+  bar1 BYTEA NOT NULL,
+  bar2 BLOB NOT NULL,
+  bar3 BYTES NOT NULL,
+  PRIMARY KEY (id)
+);
