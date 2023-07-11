@@ -1,0 +1,10 @@
+CREATE TABLE int_big_int(
+  id INT NOT NULL,
+  int4_col INT4 NOT NULL,
+  int_col INT NOT NULL,
+  integer_col INTEGER NOT NULL,
+  int8_col INT8 NOT NULL,
+  int64_col INT64 NOT NULL,
+  bigint_col BIGINT NOT NULL,
+  PRIMARY KEY (id)
+);

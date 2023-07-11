@@ -73,6 +73,8 @@
 }
 
 overrides ::= table_constraint
+  | int_data_type
+  | big_int_data_type
   | string_data_type
   | blob_data_type
   | generated_clause
@@ -85,6 +87,18 @@ table_constraint ::= [ CONSTRAINT ansi_identifier ] (
 ) {
   extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlTableConstraintImpl"
   implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlTableConstraint"
+  override = true
+}
+
+int_data_type ::= 'INT4' {
+  extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlIntDataTypeImpl"
+  implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlIntDataType"
+  override = true
+}
+
+big_int_data_type ::= 'INT' | 'INTEGER' | 'INT8' | 'INT64' | 'BIGINT' {
+  extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlBigIntDataTypeImpl"
+  implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlBigIntDataType"
   override = true
 }
 
