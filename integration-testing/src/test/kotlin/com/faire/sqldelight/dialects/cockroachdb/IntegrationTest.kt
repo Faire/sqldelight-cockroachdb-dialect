@@ -2,6 +2,7 @@ package com.faire.sqldelight.dialects.cockroachdb
 
 import Blob_data_types
 import Computed_column
+import Int_big_int
 import String_type
 import app.cash.sqldelight.driver.jdbc.JdbcDriver
 import app.cash.sqldelight.driver.jdbc.asJdbcDriver
@@ -62,6 +63,21 @@ class IntegrationTest {
       assertThat(blob_col.toString(charset)).isEqualTo("bar")
       assertThat(bytes_col.toString(charset)).isEqualTo("baz")
     }
+  }
+
+  @Test
+  fun `integer types`() {
+    database.intBigIntQueries.create(
+      Int_big_int(
+        id = 1,
+        int4_col = 2,
+        int_col = 3L,
+        integer_col = 4L,
+        int8_col = 5L,
+        int64_col = 6L,
+        bigint_col = 7L,
+      ),
+    )
   }
 
   companion object {
