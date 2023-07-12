@@ -1,5 +1,5 @@
 create:
-INSERT INTO computed_column (id, quantity) VALUES ?;
+INSERT INTO computed_column (id, quantity) VALUES (?, ?);
 
 queryByComputedColumn:
 SELECT id
