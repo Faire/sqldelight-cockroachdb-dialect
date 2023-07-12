@@ -12,10 +12,8 @@ import org.testcontainers.containers.CockroachContainer
 class IntegrationTest {
   @Test
   fun `query by computed columns`() {
-    // TODO: Figure out how to not pass in the computed column value
-    // Intentionally passed in the opposite value to ensure it's not being persisted.
-    database.computedColumnQueries.create(Computed_column(1, 100, false))
-    database.computedColumnQueries.create(Computed_column(2, -100, true))
+    database.computedColumnQueries.create(1, 100)
+    database.computedColumnQueries.create(2, -100)
 
     assertThat(
       database.computedColumnQueries.queryByComputedColumn(is_positive = false).executeAsOne(),
@@ -25,7 +23,7 @@ class IntegrationTest {
       database.computedColumnQueries.queryByComputedColumn(is_positive = true).executeAsOne(),
     ).isEqualTo(1)
 
-    database.computedColumnQueries.create(Computed_column(3, 200, false))
+    database.computedColumnQueries.create(3, 200)
 
     assertThat(
       database.computedColumnQueries.queryByComputedColumn(is_positive = true).executeAsList(),
