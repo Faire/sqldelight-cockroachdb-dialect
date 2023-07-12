@@ -19,7 +19,7 @@ sqldelight {
       dialect(projects.cockroachdbDialect)
 
       srcDirs(
-        "src/main/resources/migrations",
+        "src/main/resources/migration",
         "src/main/sqldelight",
       )
     }

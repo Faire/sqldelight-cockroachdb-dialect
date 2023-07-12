@@ -1,9 +1,5 @@
 package com.faire.sqldelight.dialects.cockroachdb
 
-import Blob_data_types
-import Computed_column
-import Int_big_int
-import String_type
 import app.cash.sqldelight.driver.jdbc.JdbcDriver
 import app.cash.sqldelight.driver.jdbc.asJdbcDriver
 import org.assertj.core.api.Assertions.assertThat
