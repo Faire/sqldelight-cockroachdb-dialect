@@ -8,6 +8,10 @@ import org.junit.BeforeClass
 import org.junit.Test
 import org.postgresql.ds.PGSimpleDataSource
 import org.testcontainers.containers.CockroachContainer
+import java.time.LocalDateTime
+import java.time.Month
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
 
 class IntegrationTest {
   @Test
@@ -72,6 +76,36 @@ class IntegrationTest {
         bigint_col = 7L,
       ),
     )
+  }
+
+  @Test
+  fun `set precision to timestamptz`() {
+    val localDateTime = LocalDateTime.of(
+      2023,
+      Month.JANUARY,
+      1,
+      0,
+      0,
+      0,
+      123456789, // nano of seconds
+    )
+
+    val localDateTimeInstantNano = localDateTime.toInstant(ZoneOffset.UTC).nano
+    assertThat(localDateTimeInstantNano).isEqualTo(123456789)
+
+    val offsetDateTime = OffsetDateTime.of(localDateTime, ZoneOffset.UTC)
+
+    database.timestamptzPrecisionQueries.create(
+      Timestamptz_precision(
+        id = 1,
+        tstz = offsetDateTime,
+      ),
+    )
+
+    val storedInstantNano = database.timestamptzPrecisionQueries.selectAll().executeAsOne().tstz.toInstant().nano
+
+    assertThat(storedInstantNano).isNotEqualTo(localDateTimeInstantNano)
+    assertThat(storedInstantNano).isEqualTo(123000000)
   }
 
   companion object {

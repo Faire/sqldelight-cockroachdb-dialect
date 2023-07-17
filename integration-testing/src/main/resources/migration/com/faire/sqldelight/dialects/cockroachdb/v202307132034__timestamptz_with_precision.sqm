@@ -1,0 +1,5 @@
+CREATE TABLE timestamptz_precision(
+  id INT NOT NULL,
+  tstz TIMESTAMPTZ(3) NOT NULL,
+  PRIMARY KEY (id)
+);

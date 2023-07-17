@@ -31,6 +31,8 @@
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.UNIQUE"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.USING"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.WHERE"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.WITH"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.WITHOUT"
 
     "static com.alecstrong.sql.psi.core.SqlParserUtil.alterTableAddColumnExt"
     "static com.alecstrong.sql.psi.core.SqlParser.alter_table_add_column_real"
@@ -105,6 +107,12 @@ big_int_data_type ::= 'INT' | 'INTEGER' | 'INT8' | 'INT64' | 'BIGINT' {
 string_data_type ::= ((( 'CHARACTER' 'VARYING' ) | 'VARCHAR' | 'CHARACTER' | 'CHAR') [ LP ansi_signed_number RP ]) | 'TEXT' | 'CITEXT' | 'STRING' {
   extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlStringDataTypeImpl"
   implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlStringDataType"
+  override = true
+}
+
+date_data_type ::= 'DATE' | (('TIME' | 'TIMESTAMP') [ LP ansi_signed_number RP ] [(WITH | WITHOUT) 'TIME' 'ZONE']) | 'TIMESTAMPTZ' [ LP ansi_signed_number RP ] | 'INTERVAL' {
+  extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlDateDataTypeImpl"
+  implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlDateDataType"
   override = true
 }
 
