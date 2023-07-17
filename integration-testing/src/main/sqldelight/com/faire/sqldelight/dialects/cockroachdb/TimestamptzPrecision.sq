@@ -1,0 +1,6 @@
+create:
+INSERT INTO timestamptz_precision VALUES ?;
+
+selectAll:
+SELECT *
+FROM timestamptz_precision;
