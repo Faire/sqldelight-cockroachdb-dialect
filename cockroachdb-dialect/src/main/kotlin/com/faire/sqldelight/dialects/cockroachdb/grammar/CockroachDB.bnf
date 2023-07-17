@@ -78,6 +78,7 @@ overrides ::= table_constraint
   | int_data_type
   | big_int_data_type
   | string_data_type
+  | date_data_type
   | blob_data_type
   | generated_clause
   | alter_table_rules
