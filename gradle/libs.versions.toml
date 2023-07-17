@@ -7,7 +7,7 @@ sqldelight = "2.0.0-rc02"
 sql-psi = "0.4.5"
 
 [libraries]
-assertj-core = { module = "org.assertj:assertj-core", version = "3.11.1" }
+assertj-core = { module = "org.assertj:assertj-core", version = "3.24.2" }
 intellij-analysis = { module = "com.jetbrains.intellij.platform:analysis-impl", version.ref = "idea" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
