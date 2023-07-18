@@ -16,3 +16,4 @@ This doesn't fully cover the whole SQL syntax of CockroachDB. It's a work in pro
 * Blob types (BYTEA, BLOB, BYTES)
 * [Integer types](https://www.cockroachlabs.com/docs/stable/int.html) (32bit and 64bit aliases)
 * [Specify precision to TIMESTAMPTZ](https://www.cockroachlabs.com/docs/stable/timestamp.html#precision)
+* [Specify table storage options](https://www.cockroachlabs.com/docs/stable/with-storage-parameter)
