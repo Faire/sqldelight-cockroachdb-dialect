@@ -71,9 +71,6 @@
     "static com.alecstrong.sql.psi.core.SqlParserUtil.indexNameExt"
     "static com.alecstrong.sql.psi.core.SqlParser.index_name_real"
 
-    "static com.alecstrong.sql.psi.core.SqlParserUtil.setterExpressionExt"
-    "static com.alecstrong.sql.psi.core.SqlParser.setter_expression_real"
-
     "static com.alecstrong.sql.psi.core.SqlParserUtil.signedNumberExt"
     "static com.alecstrong.sql.psi.core.SqlParser.signed_number_real"
 
