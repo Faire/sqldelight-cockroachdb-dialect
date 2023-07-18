@@ -31,4 +31,7 @@ private fun CockroachDBParserUtil.overrideSqlParser() {
   SqlParserUtil.drop_index_stmt = GeneratedParserUtilBase.Parser { psiBuilder, i ->
     drop_index_stmt?.parse(psiBuilder, i) ?: CockroachDBParser.drop_index_stmt_real(psiBuilder, i)
   }
+  SqlParserUtil.table_options = GeneratedParserUtilBase.Parser { psiBuilder, i ->
+    table_options?.parse(psiBuilder, i) ?: CockroachDBParser.table_options_real(psiBuilder, i)
+  }
 }

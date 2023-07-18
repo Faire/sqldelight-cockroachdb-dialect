@@ -16,10 +16,13 @@
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.COMMA"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.CONSTRAINT"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.DEFAULT"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.DIGIT"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.DROP"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.EQ"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.EXISTS"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.FOREIGN"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.GENERATED"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.ID"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.IF"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.INDEX"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.KEY"
@@ -28,6 +31,8 @@
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.ON"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.PRIMARY"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.RP"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.SET"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.STRING"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.UNIQUE"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.USING"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.WHERE"
@@ -145,6 +150,18 @@ drop_index_stmt ::= DROP INDEX [ IF EXISTS ] [ ansi_table_name '@' ] ansi_index_
   pin = 2
 }
 
+table_options ::= storage_options {
+  extends = "com.alecstrong.sql.psi.core.psi.impl.SqlTableOptionsImpl"
+  implements = "com.alecstrong.sql.psi.core.psi.SqlTableOptions"
+}
+
+storage_parameter_key ::= id
+storage_parameter_value ::= id | string | digit
+
+private storage_option_key_values ::= LP storage_parameter_key EQ storage_parameter_value (COMMA storage_parameter_key EQ storage_parameter_value) * RP
+
+storage_options ::= WITH storage_option_key_values
+
 alter_table_rules ::= (
   ansi_alter_table_add_column
   | ansi_alter_table_rename_table
@@ -152,6 +169,8 @@ alter_table_rules ::= (
   | {alter_table_drop_column}
   | {alter_table_add_constraint}
   | alter_table_alter_primary_key
+  | alter_table_set_storage_options
+  | alter_table_reset_storage_options
   | {alter_table_alter_column}
 ) {
   extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlAlterTableRulesImpl"
@@ -159,10 +178,13 @@ alter_table_rules ::= (
   override = true
 }
 
-
 alter_table_alter_primary_key ::= ALTER PRIMARY KEY USING "COLUMNS" LP ansi_column_name (COMMA ansi_column_name) * RP {
   pin = 5
 }
+
+alter_table_set_storage_options ::= SET storage_option_key_values
+
+alter_table_reset_storage_options ::= 'RESET' LP storage_parameter_key (COMMA storage_parameter_key) * RP
 
 private ansi_alter_table_add_column ::= <<alterTableAddColumnExt <<alter_table_add_column_real>>>>
 private ansi_alter_table_rename_table ::= <<alterTableRenameTableExt <<alter_table_rename_table_real>>>>

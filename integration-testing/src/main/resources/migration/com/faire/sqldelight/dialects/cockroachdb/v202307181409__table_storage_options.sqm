@@ -1,0 +1,15 @@
+CREATE TABLE storage_options(
+  id INT NOT NULL,
+  expired_at TIMESTAMPTZ NOT NULL,
+  PRIMARY KEY (id)
+) WITH (ttl_expiration_expression = 'expired_at', ttl_job_cron = '@daily');
+
+ALTER TABLE storage_options
+SET (ttl_select_batch_size = 100, ttl_delete_batch_size = 200);
+
+ALTER TABLE storage_options
+SET (exclude_data_from_backup = true);
+
+ALTER TABLE storage_options RESET (ttl_job_cron, ttl_select_batch_size);
+
+ALTER TABLE storage_options RESET (exclude_data_from_backup);
