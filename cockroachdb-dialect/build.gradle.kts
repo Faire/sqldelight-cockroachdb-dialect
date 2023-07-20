@@ -13,7 +13,7 @@ grammarKit {
 
 dependencies {
   compileOnly(libs.sqldelight.compiler.env)
-  api(libs.sqldelight.postgresql.dialect)
+  implementation(libs.sqldelight.postgresql.dialect)
 
   testImplementation(libs.intellij.analysis)
   testImplementation(libs.sql.psi.test.fixtures) {
