@@ -1,3 +1,5 @@
+import java.net.URI
+
 plugins {
   alias(libs.plugins.grammar.kit.composer)
   `maven-publish`
@@ -50,6 +52,17 @@ publishing {
         scm {
           connection = "scm:git:git://github.com/Faire/sqldelight-cockroachdb-dialect.git"
           url = "https://github.com/Faire/sqldelight-cockroachdb-dialect"
+        }
+      }
+    }
+
+    repositories {
+      maven {
+        name = "OSSRH"
+        url = URI("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+        credentials {
+          username = System.getenv("OSSRH_USERNAME")
+          password = System.getenv("OSSRH_PASSWORD")
         }
       }
     }
