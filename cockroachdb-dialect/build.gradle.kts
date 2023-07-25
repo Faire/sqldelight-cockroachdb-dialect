@@ -1,8 +1,11 @@
-import java.net.URI
+import com.vanniktech.maven.publish.SonatypeHost
+
+group = "com.faire"
+version = "0.1.0"
 
 plugins {
   alias(libs.plugins.grammar.kit.composer)
-  `maven-publish`
+  alias(libs.plugins.maven.publishing)
 }
 
 repositories {
@@ -23,48 +26,45 @@ dependencies {
   }
 }
 
-publishing {
-  publications {
-    create<MavenPublication>("maven") {
-      groupId = "com.faire"
-      artifactId = "sqldelight-cockroachdb-dialect"
-      version = "0.1.0"
+mavenPublishing {
+  coordinates("com.faire", "sqldelight-cockroachdb-dialect", "0.1.0")
+  publishToMavenCentral(SonatypeHost.DEFAULT, true)
+  signAllPublications()
 
-      from(components["java"])
+  pom {
+    name = "sqldelight-cockroachdb-dialect"
+    description = "A SQLDelight dialect for CockroachDB"
+    inceptionYear = "2023"
+    url = "https://github.com/Faire/sqldelight-cockroachdb-dialect"
 
-      pom {
-        name = "sqldelight-cockroachdb-dialect"
-        description = "A SQLDelight dialect for CockroachDB"
-        inceptionYear = "2023"
-
-        licenses {
-          license {
-            name = "The Apache License, Version 2.0"
-            url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
-          }
-        }
-
-        issueManagement {
-          system = "GitHub"
-          url = "https://github.com/Faire/sqldelight-cockroachdb-dialect/issues"
-        }
-
-        scm {
-          connection = "scm:git:git://github.com/Faire/sqldelight-cockroachdb-dialect.git"
-          url = "https://github.com/Faire/sqldelight-cockroachdb-dialect"
-        }
+    licenses {
+      license {
+        name = "The Apache License, Version 2.0"
+        distribution = "repo"
+        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     }
 
-    repositories {
-      maven {
-        name = "OSSRH"
-        url = URI("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-        credentials {
-          username = System.getenv("OSSRH_USERNAME")
-          password = System.getenv("OSSRH_PASSWORD")
-        }
+    developers {
+      developer {
+        id = "Faire"
+        name = "Faire Developers"
       }
+    }
+
+    organization {
+      name = "Faire"
+      url = "https://www.faire.com"
+    }
+
+    issueManagement {
+      system = "GitHub"
+      url = "https://github.com/Faire/sqldelight-cockroachdb-dialect/issues"
+    }
+
+    scm {
+      connection = "scm:git:git://github.com/Faire/sqldelight-cockroachdb-dialect.git"
+      url = "https://github.com/Faire/sqldelight-cockroachdb-dialect"
     }
   }
 }
