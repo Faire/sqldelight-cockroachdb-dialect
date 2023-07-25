@@ -17,3 +17,12 @@ This doesn't fully cover the whole SQL syntax of CockroachDB. It's a work in pro
 * [Integer types](https://www.cockroachlabs.com/docs/stable/int.html) (32bit and 64bit aliases)
 * [Specify precision to TIMESTAMPTZ](https://www.cockroachlabs.com/docs/stable/timestamp.html#precision)
 * [Specify table storage options](https://www.cockroachlabs.com/docs/stable/with-storage-parameter)
+
+### Using this Library
+
+Please see the official [SQLDelight Documentation](https://cashapp.github.io/sqldelight/jvm_postgresql/#getting-started-with-postgresql).
+
+To use this dialect, set the dialect to be:
+`dialect("com.faire:sqldelight-cockroachdb-dialect:<version>")`
+
+Latest version can be found [here](https://central.sonatype.com/artifact/com.faire/sqldelight-cockroachdb-dialect).
