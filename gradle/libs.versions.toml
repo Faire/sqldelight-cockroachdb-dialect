@@ -1,16 +1,13 @@
 [versions]
 idea = "222.4459.24"
 kotlin = "1.8.22"
-ktlint = "0.49.1"
 spotless = "6.20.0"
-sqldelight = "2.0.0"
 sql-psi = "0.4.6"
+sqldelight = "2.0.0"
 
 [libraries]
 assertj-core = { module = "org.assertj:assertj-core", version = "3.24.2" }
 intellij-analysis = { module = "com.jetbrains.intellij.platform:analysis-impl", version.ref = "idea" }
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 postgres-jdbc-driver = { module = "org.postgresql:postgresql", version = "42.6.0" }
 sql-psi-test-fixtures = { module = "com.alecstrong.sql.psi:test-fixtures", version.ref = "sql-psi" }
 sqldelight-compiler-env = { module = "app.cash.sqldelight:compiler-env", version.ref = "sqldelight" }

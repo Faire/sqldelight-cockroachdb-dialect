@@ -8,10 +8,6 @@ plugins {
   alias(libs.plugins.maven.publishing)
 }
 
-repositories {
-  maven("https://jitpack.io")
-}
-
 grammarKit {
   intellijRelease.set(libs.versions.idea)
 }
