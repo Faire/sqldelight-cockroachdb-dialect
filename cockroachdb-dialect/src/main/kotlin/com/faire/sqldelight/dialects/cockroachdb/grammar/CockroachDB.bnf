@@ -190,7 +190,7 @@ region_name ::= string
 
 private locality ::= 'LOCALITY' ( 'GLOBAL' | regional_locality )
 
-private regional_locality ::= 'REGIONAL' ( BY TABLE  [ IN ( region_name | PRIMARY 'REGION') ] | BY ROW | IN ( region_name | PRIMARY 'REGION') )
+private regional_locality ::= 'REGIONAL' ( BY TABLE  [ IN ( region_name | PRIMARY 'REGION') ] | BY ROW [ AS ansi_column_name ] | IN ( region_name | PRIMARY 'REGION') )
 
 alter_table_set_locality_options ::= SET locality {
   pin = 2
