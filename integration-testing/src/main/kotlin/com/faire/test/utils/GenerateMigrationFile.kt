@@ -10,10 +10,11 @@ private const val MIGRATION_FOLDER_PATH =
 
 fun main() {
   val current = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"))
-  val fileName = "v${current}__.sqm"
+  val fileName = "v${current}__ADD_DESCRIPTION.sqm"
 
   val filePath = Paths.get(System.getProperty("user.dir"), MIGRATION_FOLDER_PATH, fileName)
-  println(filePath.toString())
 
   Files.createFile(filePath)
+
+  println("Created migration file: ${filePath.fileName}")
 }
