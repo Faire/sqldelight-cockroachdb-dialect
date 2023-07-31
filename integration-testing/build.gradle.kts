@@ -25,3 +25,10 @@ sqldelight {
     }
   }
 }
+
+tasks.register<JavaExec>("generateMigrationFile") {
+  group = "test-utils"
+  mainClass = "com.faire.test.utils.GenerateMigrationFileKt"
+  classpath = sourceSets["main"].runtimeClasspath
+  dependsOn("assemble")
+}
