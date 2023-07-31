@@ -1,0 +1,2 @@
+ALTER DATABASE foo ADD REGION "us-east-2";
+ALTER DATABASE foo DROP REGION "us-east-1";
