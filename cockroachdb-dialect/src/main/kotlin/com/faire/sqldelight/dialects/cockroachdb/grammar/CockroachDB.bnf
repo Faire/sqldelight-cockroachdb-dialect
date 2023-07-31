@@ -24,15 +24,18 @@
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.GENERATED"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.ID"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.IF"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.IN"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.INDEX"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.KEY"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.LP"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.NOT"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.ON"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.PRIMARY"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.ROW"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.RP"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.SET"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.STRING"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.TABLE"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.UNIQUE"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.USING"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.WHERE"
@@ -169,6 +172,7 @@ alter_table_rules ::= (
   | {alter_table_drop_column}
   | {alter_table_add_constraint}
   | alter_table_alter_primary_key
+  | alter_table_set_locality_options
   | alter_table_set_storage_options
   | alter_table_reset_storage_options
   | {alter_table_alter_column}
@@ -180,6 +184,16 @@ alter_table_rules ::= (
 
 alter_table_alter_primary_key ::= ALTER PRIMARY KEY USING "COLUMNS" LP ansi_column_name (COMMA ansi_column_name) * RP {
   pin = 5
+}
+
+region_name ::= string
+
+private locality ::= 'LOCALITY' ( 'GLOBAL' | regional_locality )
+
+private regional_locality ::= 'REGIONAL' ( BY TABLE  [ IN ( region_name | PRIMARY 'REGION') ] | BY ROW [ AS ansi_column_name ] | IN ( region_name | PRIMARY 'REGION') )
+
+alter_table_set_locality_options ::= SET locality {
+  pin = 2
 }
 
 alter_table_set_storage_options ::= SET storage_option_key_values
