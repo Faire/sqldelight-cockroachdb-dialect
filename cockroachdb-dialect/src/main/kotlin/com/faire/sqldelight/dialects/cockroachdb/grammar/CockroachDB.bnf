@@ -10,11 +10,13 @@
   parserImports=[
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.ALTER"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.ALWAYS"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.ADD"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.AS"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.BY"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.CREATE"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.COMMA"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.CONSTRAINT"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.DATABASE"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.DEFAULT"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.DIGIT"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.DROP"
@@ -90,6 +92,7 @@ overrides ::= table_constraint
   | blob_data_type
   | generated_clause
   | alter_table_rules
+  | extension_stmt
 
 table_constraint ::= [ CONSTRAINT ansi_identifier ] (
   ( PRIMARY KEY | [UNIQUE] INDEX | UNIQUE ) [ansi_index_name] LP ansi_indexed_column [ LP ansi_signed_number RP ] ( COMMA ansi_indexed_column [ LP ansi_signed_number RP ] ) * RP ['STORING' LP ansi_column_name ( COMMA ansi_column_name ) * RP ] [ WHERE <<expr '-1'>> ] ansi_conflict_clause [comment_type] |
@@ -199,6 +202,31 @@ alter_table_set_locality_options ::= SET locality {
 alter_table_set_storage_options ::= SET storage_option_key_values
 
 alter_table_reset_storage_options ::= 'RESET' LP storage_parameter_key (COMMA storage_parameter_key) * RP
+
+extension_stmt ::= {copy_stdin} | alter_database_stmt {
+  extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlExtensionStmtImpl"
+  implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlExtensionStmt"
+  override = true
+}
+
+alter_database_stmt ::= ALTER DATABASE ansi_database_name alter_database_rules {
+  pin = 2
+}
+
+alter_database_rules ::= (
+  alter_database_add_region
+  | alter_database_drop_region
+  | alter_database_set_region
+  | alter_database_survive
+)
+
+
+alter_database_add_region ::= ADD 'REGION' region_name
+alter_database_drop_region ::= DROP 'REGION' region_name
+alter_database_set_region ::= SET ( PRIMARY | 'SECONDARY' ) 'REGION' region_name {
+  pin = 2
+}
+alter_database_survive ::= 'SURVIVE' ( 'REGION' | 'ZONE' ) 'FAILURE'
 
 private ansi_alter_table_add_column ::= <<alterTableAddColumnExt <<alter_table_add_column_real>>>>
 private ansi_alter_table_rename_table ::= <<alterTableRenameTableExt <<alter_table_rename_table_real>>>>
