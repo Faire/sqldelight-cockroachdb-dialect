@@ -50,6 +50,7 @@ subprojects {
 
 val ktlintEditorConfigOverride = mapOf(
   "indent_size" to 2,
+  "ktlint_standard_discouraged-comment-location" to "disabled",
 )
 
 spotless {
