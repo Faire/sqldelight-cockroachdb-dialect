@@ -27,6 +27,7 @@ allprojects {
     exclude(group = "com.jetbrains.rd")
     exclude(group = "com.github.jetbrains", module = "jetCheck")
     exclude(group = "com.jetbrains.infra")
+    exclude(group = "com.jetbrains.intellij.platform", module = "wsl-impl")
 
     exclude(group = "org.roaringbitmap")
 
@@ -38,7 +39,6 @@ allprojects {
 
   repositories {
     mavenCentral()
-    maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
   }
 }
 
