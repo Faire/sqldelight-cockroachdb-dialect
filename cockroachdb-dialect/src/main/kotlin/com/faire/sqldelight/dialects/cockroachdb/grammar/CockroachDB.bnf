@@ -31,6 +31,7 @@
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.KEY"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.LP"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.NOT"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.NULL"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.ON"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.PRIMARY"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.ROW"
@@ -81,10 +82,14 @@
 
     "static com.alecstrong.sql.psi.core.SqlParserUtil.tableNameExt"
     "static com.alecstrong.sql.psi.core.SqlParser.table_name_real"
+
+    "static com.alecstrong.sql.psi.core.SqlParserUtil.collationNameExt"
+    "static com.alecstrong.sql.psi.core.SqlParser.collation_name_real"
   ]
 }
 
 overrides ::= table_constraint
+  | column_constraint
   | int_data_type
   | big_int_data_type
   | string_data_type
@@ -94,13 +99,30 @@ overrides ::= table_constraint
   | alter_table_rules
   | extension_stmt
 
+index_using_hash ::= 'USING' 'HASH' [ storage_options ]
+
 table_constraint ::= [ CONSTRAINT ansi_identifier ] (
-  ( PRIMARY KEY | [UNIQUE] INDEX | UNIQUE ) [ansi_index_name] LP ansi_indexed_column [ LP ansi_signed_number RP ] ( COMMA ansi_indexed_column [ LP ansi_signed_number RP ] ) * RP ['STORING' LP ansi_column_name ( COMMA ansi_column_name ) * RP ] [ WHERE <<expr '-1'>> ] ansi_conflict_clause [comment_type] |
+  ( PRIMARY KEY | [UNIQUE] INDEX | UNIQUE ) [ansi_index_name] LP ansi_indexed_column [ LP ansi_signed_number RP ] ( COMMA ansi_indexed_column [ LP ansi_signed_number RP ] ) * RP [ index_using_hash ] [('STORING' | 'COVERING' | 'INCLUDE') LP ansi_column_name ( COMMA ansi_column_name ) * RP ] [ WHERE <<expr '-1'>> ] ansi_conflict_clause [comment_type] |
   ansi_check_constraint |
   FOREIGN KEY LP ansi_column_name ( COMMA ansi_column_name ) * RP ansi_foreign_key_clause
 ) {
   extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlTableConstraintImpl"
   implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlTableConstraint"
+  override = true
+}
+
+column_constraint ::= [ CONSTRAINT ansi_identifier ] (
+  PRIMARY KEY [ index_using_hash ] [ ASC | DESC ] ansi_conflict_clause |
+  [ NOT ] NULL ansi_conflict_clause |
+  UNIQUE ansi_conflict_clause |
+  ansi_check_constraint |
+  generated_clause |
+  {default_constraint} |
+  COLLATE ansi_collation_name |
+  ansi_foreign_key_clause
+) {
+  extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlColumnConstraintImpl"
+  implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlColumnConstraint"
   override = true
 }
 
@@ -134,10 +156,10 @@ blob_data_type ::= 'BYTEA' | 'BLOB' | 'BYTES' {
   override = true
 }
 
-create_index_stmt ::= CREATE [ UNIQUE ] INDEX [ IF NOT EXISTS ] [ [ ansi_database_name DOT ] ansi_index_name ] ON ansi_table_name LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP ['STORING' LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP ] [ WHERE <<expr '-1'>> ] {
+create_index_stmt ::= CREATE [ UNIQUE ] INDEX [ 'CONCURRENTLY' ] [ IF NOT EXISTS ] [ [ ansi_database_name DOT ] ansi_index_name ] ON ansi_table_name LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP [ index_using_hash ] [('STORING' | 'COVERING' | 'INCLUDE') LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP ] [ WHERE <<expr '-1'>> ] {
   extends = "com.faire.sqldelight.dialects.cockroachdb.grammar.mixins.CreateIndexMixin"
   implements = "com.alecstrong.sql.psi.core.psi.SqlCreateIndexStmt"
-  pin = 4
+  pin = 5
 }
 
 generated_clause ::= (postgres_generated_clause | cockroach_generated_clause) {
@@ -241,4 +263,4 @@ private ansi_indexed_column ::= <<indexedColumnExt <<indexed_column_real>>>>
 private ansi_index_name ::= <<indexNameExt <<index_name_real>>>>
 private ansi_signed_number ::= <<signedNumberExt <<signed_number_real>>>>
 private ansi_table_name ::= <<tableNameExt <<table_name_real>>>>
-
+private ansi_collation_name ::= <<collationNameExt <<collation_name_real>>>>
