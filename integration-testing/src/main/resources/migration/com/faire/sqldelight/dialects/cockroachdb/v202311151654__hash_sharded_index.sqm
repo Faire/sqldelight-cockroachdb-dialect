@@ -1,0 +1,8 @@
+CREATE TABLE hash_sharded(
+  id SERIAL PRIMARY KEY USING HASH,
+  sequence1 SERIAL NOT NULL,
+  sequence2 SERIAL NOT NULL,
+  INDEX (sequence1) USING HASH
+);
+
+CREATE INDEX ON hash_sharded (sequence2) USING HASH WITH (bucket_count = 42);

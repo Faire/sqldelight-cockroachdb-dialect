@@ -7,3 +7,4 @@ CREATE TABLE foo(
 
 CREATE INDEX ON foo (bar1) USING HASH;
 CREATE INDEX ON foo (bar2) USING HASH WITH ( bucket_count = 42 );
+CREATE INDEX CONCURRENTLY ON foo (bar2) USING HASH WITH ( bucket_count = 42 );
