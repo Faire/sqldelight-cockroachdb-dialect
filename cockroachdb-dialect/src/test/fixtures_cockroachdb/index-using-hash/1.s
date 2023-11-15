@@ -1,0 +1,10 @@
+CREATE TABLE foo(
+  id INT NOT NULL,
+  bar1 INT NOT NULL,
+  bar2 BOOL NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE INDEX ON foo (bar1) USING HASH;
+CREATE INDEX ON foo (bar2) USING HASH WITH ( bucket_count = 42 );
+CREATE INDEX CONCURRENTLY ON foo (bar2) USING HASH WITH ( bucket_count = 42 );
