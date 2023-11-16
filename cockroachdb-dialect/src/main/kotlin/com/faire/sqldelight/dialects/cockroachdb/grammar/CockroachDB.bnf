@@ -138,7 +138,7 @@ big_int_data_type ::= 'INT' | 'INTEGER' | 'INT8' | 'INT64' | 'BIGINT' {
   override = true
 }
 
-string_data_type ::= ((( 'CHARACTER' 'VARYING' ) | 'VARCHAR' | 'CHARACTER' | 'CHAR') [ LP ansi_signed_number RP ]) | 'TEXT' | 'CITEXT' | 'STRING' {
+string_data_type ::= ((( 'CHARACTER' 'VARYING' ) | 'VARCHAR' | 'CHARACTER' | 'CHAR' | 'STRING') [ LP ansi_signed_number RP ]) | 'TEXT' | 'CITEXT' {
   extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlStringDataTypeImpl"
   implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlStringDataType"
   override = true
