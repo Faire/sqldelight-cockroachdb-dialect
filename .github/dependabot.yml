@@ -9,3 +9,5 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+    ignore:
+      - com.alecstrong.sql.psi:* # Needs to be coordinated with sqldelight release
