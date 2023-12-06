@@ -6,6 +6,7 @@ version = "0.2.0"
 plugins {
   alias(libs.plugins.grammar.kit.composer)
   alias(libs.plugins.maven.publishing)
+  `java-test-fixtures`
 }
 
 grammarKit {
@@ -17,9 +18,8 @@ dependencies {
   implementation(libs.sqldelight.postgresql.dialect)
 
   testImplementation(libs.intellij.analysis)
-  testImplementation(libs.sql.psi.test.fixtures) {
-    exclude(group = "com.jetbrains.intellij.platform")
-  }
+
+  testFixturesApi(testFixtures(libs.sql.psi))
 }
 
 mavenPublishing {
