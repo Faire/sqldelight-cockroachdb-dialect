@@ -38,8 +38,8 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
   }
 
   companion object {
+    // TODO (Adriel-M): Use the testFixtures from sqldelight.
     private val fixtures = mutableListOf(
-      "src/test/fixtures_cockroachdb",
       "src/test/fixtures_postgresql",
     )
 
@@ -63,7 +63,9 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
       val extraAnsiFixtures = ansiFixtures
         .filter { (it[0] as String) !in excludedAnsiFixtures }
 
-      return projectFixtures + extraAnsiFixtures
+      return CockroachDBTestFixtures.fixtures +
+        projectFixtures +
+        extraAnsiFixtures
     }
   }
 }
