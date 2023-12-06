@@ -18,6 +18,11 @@ dependencies {
   implementation(libs.sqldelight.postgresql.dialect)
 
   testImplementation(libs.intellij.analysis)
+  testImplementation(libs.sqldelight.postgresql.dialect) {
+    artifact {
+      classifier = "test-fixtures"
+    }
+  }
 
   testFixturesApi(testFixtures(libs.sql.psi))
 }

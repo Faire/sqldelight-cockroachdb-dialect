@@ -15,6 +15,7 @@
  */
 package com.faire.sqldelight.dialects.cockroachdb
 
+import app.cash.sqldelight.dialects.postgresql.PostgresqlTestFixtures
 import com.alecstrong.sql.psi.test.fixtures.FixturesTest
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -38,11 +39,6 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
   }
 
   companion object {
-    // TODO (Adriel-M): Use the testFixtures from sqldelight.
-    private val fixtures = mutableListOf(
-      "src/test/fixtures_postgresql",
-    )
-
     private val excludedAnsiFixtures = listOf(
       "index-migration", // Excluded since we're not validating indices when dropping them.
       "create-table-validation-failures", // Excluded since we're not validating indices when creating them.
@@ -54,17 +50,11 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
     @Parameterized.Parameters(name = "{0}")
     @JvmStatic
     fun parameters(): List<Array<out Any>> {
-      val projectFixtures = fixtures.flatMap { fixtureFolder ->
-        File(fixtureFolder).listFiles()!!
-          .filter { it.isDirectory }
-          .map { arrayOf<Any>(it.name, it) }
-      }
-
       val extraAnsiFixtures = ansiFixtures
         .filter { (it[0] as String) !in excludedAnsiFixtures }
 
       return CockroachDBTestFixtures.fixtures +
-        projectFixtures +
+        PostgresqlTestFixtures.fixtures +
         extraAnsiFixtures
     }
   }
