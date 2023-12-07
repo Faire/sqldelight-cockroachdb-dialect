@@ -10,4 +10,4 @@ updates:
     schedule:
       interval: "daily"
     ignore:
-      - com.alecstrong.sql.psi:* # Needs to be coordinated with sqldelight release
+      - dependency-name: com.alecstrong.sql.psi:* # Needs to be coordinated with sqldelight release
