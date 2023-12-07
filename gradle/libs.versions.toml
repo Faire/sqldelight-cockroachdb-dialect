@@ -8,7 +8,7 @@ sqldelight = "2.0.1"
 [libraries]
 assertj-core = { module = "org.assertj:assertj-core", version = "3.24.2" }
 intellij-analysis = { module = "com.jetbrains.intellij.platform:analysis-impl", version.ref = "idea" }
-postgres-jdbc-driver = { module = "org.postgresql:postgresql", version = "42.7.0" }
+postgres-jdbc-driver = { module = "org.postgresql:postgresql", version = "42.7.1" }
 sql-psi = { module = "com.alecstrong.sql.psi:core", version.ref = "sql-psi" }
 sqldelight-compiler-env = { module = "app.cash.sqldelight:compiler-env", version.ref = "sqldelight" }
 sqldelight-jdbc-driver = { module = "app.cash.sqldelight:jdbc-driver", version.ref = "sqldelight" }
