@@ -1,7 +1,7 @@
 import com.vanniktech.maven.publish.SonatypeHost
 
 group = "com.faire"
-version = "0.2.0"
+version = "0.3.0"
 
 plugins {
   alias(libs.plugins.grammar.kit.composer)
@@ -28,7 +28,7 @@ dependencies {
 }
 
 mavenPublishing {
-  coordinates("com.faire", "sqldelight-cockroachdb-dialect", "0.2.0")
+  coordinates("com.faire", "sqldelight-cockroachdb-dialect", "0.3.0")
   publishToMavenCentral(SonatypeHost.DEFAULT, true)
   signAllPublications()
 
