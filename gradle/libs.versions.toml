@@ -18,6 +18,6 @@ testcontainers-cockroachdb = { module = "org.testcontainers:cockroachdb", versio
 [plugins]
 grammar-kit-composer = { id = "com.alecstrong.grammar.kit.composer", version = "0.1.12" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-maven-publishing = { id = "com.vanniktech.maven.publish", version = "0.25.3"}
+maven-publishing = { id = "com.vanniktech.maven.publish", version = "0.26.0"}
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
