@@ -14,6 +14,7 @@
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.AS"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.BY"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.CREATE"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.COLLATE"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.COMMA"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.CONSTRAINT"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.DATABASE"
