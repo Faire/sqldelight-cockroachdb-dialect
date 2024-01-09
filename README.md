@@ -1,3 +1,8 @@
+# Notice
+
+There's a regression from the Postgres Dialect (ALTER TABLE ALTER COLUMN) in SQLDelight 2.0.1 that prevents this dialect
+from working during the migration process. Please use `0.2.0` for the time being.
+
 # SQLDelight CockroachDB Dialect
 [CockroachDB](https://www.cockroachlabs.com/) dialect for [SQLDelight](https://github.com/cashapp/sqldelight).
 CockroachDB supports the majority of the PostgreSQL syntax (please see this [page](https://www.cockroachlabs.com/docs/stable/postgresql-compatibility.html) for more details).
