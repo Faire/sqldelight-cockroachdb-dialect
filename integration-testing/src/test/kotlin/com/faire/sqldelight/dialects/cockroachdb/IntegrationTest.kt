@@ -87,7 +87,8 @@ class IntegrationTest {
       0,
       0,
       0,
-      123456789, // nano of seconds
+      // nano of seconds
+      123456789,
     )
 
     val localDateTimeInstantNano = localDateTime.toInstant(ZoneOffset.UTC).nano
