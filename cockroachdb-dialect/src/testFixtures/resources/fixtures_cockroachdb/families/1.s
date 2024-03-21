@@ -1,0 +1,12 @@
+CREATE TABLE foo (
+    id INT PRIMARY KEY,
+    last_accessed TIMESTAMP,
+    data BYTES,
+
+    FAMILY f1 (id, last_accessed),
+    FAMILY f2 (data)
+);
+
+ALTER TABLE foo ADD COLUMN data2 BYTES CREATE FAMILY f3;
+ALTER TABLE foo ADD COLUMN name STRING FAMILY f1;
+ALTER TABLE foo ADD COLUMN name STRING CREATE IF NOT EXISTS FAMILY f1;
