@@ -102,7 +102,7 @@ overrides ::= table_constraint
 
 index_using_hash ::= USING 'HASH' [ WITH LP 'bucket_count' EQ ansi_signed_number RP ]
 
-table_constraint ::= [ CONSTRAINT ansi_identifier ] (
+table_constraint ::= table_family_constraint | [ CONSTRAINT ansi_identifier ] (
   ( PRIMARY KEY | [UNIQUE] INDEX | UNIQUE ) [ansi_index_name] LP ansi_indexed_column [ LP ansi_signed_number RP ] ( COMMA ansi_indexed_column [ LP ansi_signed_number RP ] ) * RP [ index_using_hash ] [('STORING' | 'COVERING' | 'INCLUDE') LP ansi_column_name ( COMMA ansi_column_name ) * RP ] [ WHERE <<expr '-1'>> ] ansi_conflict_clause [comment_type] |
   ansi_check_constraint |
   FOREIGN KEY LP ansi_column_name ( COMMA ansi_column_name ) * RP ansi_foreign_key_clause
@@ -112,7 +112,9 @@ table_constraint ::= [ CONSTRAINT ansi_identifier ] (
   override = true
 }
 
-column_constraint ::= [ CONSTRAINT ansi_identifier ] (
+table_family_constraint ::= 'FAMILY' [ ansi_identifier ] LP ansi_column_name ( COMMA ansi_column_name ) * RP
+
+column_constraint ::= alter_table_add_column_family_constraint | [ CONSTRAINT ansi_identifier ] (
   PRIMARY KEY [ index_using_hash ] [ ASC | DESC ] ansi_conflict_clause |
   [ NOT ] NULL ansi_conflict_clause |
   UNIQUE ansi_conflict_clause |
@@ -126,6 +128,15 @@ column_constraint ::= [ CONSTRAINT ansi_identifier ] (
   implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlColumnConstraint"
   override = true
 }
+
+alter_table_add_column_family_constraint ::= (
+  ( 'FAMILY' ansi_identifier )
+  | ( CREATE (
+      ( 'FAMILY' [ ansi_identifier ] )
+      | ( IF NOT EXISTS 'FAMILY' ansi_identifier )
+    )
+  )
+)
 
 int_data_type ::= 'INT4' {
   extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlIntDataTypeImpl"
