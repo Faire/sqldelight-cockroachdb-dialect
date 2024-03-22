@@ -112,7 +112,7 @@ table_constraint ::= table_family_constraint | [ CONSTRAINT ansi_identifier ] (
   override = true
 }
 
-table_family_constraint ::= 'FAMILY' ansi_identifier LP ansi_column_name ( COMMA ansi_column_name ) * RP
+table_family_constraint ::= 'FAMILY' [ ansi_identifier ] LP ansi_column_name ( COMMA ansi_column_name ) * RP
 
 column_constraint ::= alter_table_add_column_family_constraint | [ CONSTRAINT ansi_identifier ] (
   PRIMARY KEY [ index_using_hash ] [ ASC | DESC ] ansi_conflict_clause |
@@ -129,7 +129,14 @@ column_constraint ::= alter_table_add_column_family_constraint | [ CONSTRAINT an
   override = true
 }
 
-alter_table_add_column_family_constraint ::= [ CREATE [ IF NOT EXISTS ] ] 'FAMILY' ansi_identifier
+alter_table_add_column_family_constraint ::= (
+  ( 'FAMILY' ansi_identifier )
+  | ( CREATE (
+      ( 'FAMILY' [ ansi_identifier ] )
+      | ( IF NOT EXISTS 'FAMILY' ansi_identifier )
+    )
+  )
+)
 
 int_data_type ::= 'INT4' {
   extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlIntDataTypeImpl"
