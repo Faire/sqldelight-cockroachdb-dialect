@@ -28,7 +28,6 @@ dependencies {
 }
 
 mavenPublishing {
-  coordinates("com.faire", "sqldelight-cockroachdb-dialect", "0.3.1")
   publishToMavenCentral(SonatypeHost.DEFAULT, true)
   signAllPublications()
 
