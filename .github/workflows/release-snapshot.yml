@@ -1,4 +1,4 @@
-name: Trigger Release
+name: Trigger Snapshot Release
 
 on:
   push:
