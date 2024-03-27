@@ -7,6 +7,8 @@ on:
 
 jobs:
   publish_archives:
+    runs-on: ubuntu-latest
+
     if: github.repository == 'Faire/sqldelight-cockroachdb-dialect'
     permissions:
       contents: read
