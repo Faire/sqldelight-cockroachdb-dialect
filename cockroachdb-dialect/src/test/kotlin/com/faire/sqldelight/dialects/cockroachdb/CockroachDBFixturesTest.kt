@@ -31,7 +31,7 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
     "BLOB" to "TEXT",
     "id TEXT GENERATED ALWAYS AS (2) UNIQUE NOT NULL" to "id TEXT GENERATED ALWAYS AS (2) STORED UNIQUE NOT NULL",
     "'(', ')', ',', '.', <binary like operator real>, BETWEEN or IN expected, got ','"
-      to "'(', ')', ',', '.', <binary like operator real>, <jsona binary operator real>, <jsonb binary operator real>, BETWEEN or IN expected, got ','",
+      to "'#-', '(', ')', ',', '.', <binary like operator real>, <jsona binary operator real>, <jsonb boolean operator real>, '@@', BETWEEN or IN expected, got ','",
   )
 
   override fun setupDialect() {
