@@ -237,7 +237,7 @@ alter_table_set_storage_options ::= SET storage_option_key_values
 
 alter_table_reset_storage_options ::= 'RESET' LP storage_parameter_key (COMMA storage_parameter_key) * RP
 
-extension_stmt ::= {create_sequence_stmt} | {copy_stdin} | alter_database_stmt | {truncate_stmt} {
+extension_stmt ::= {create_sequence_stmt} | {copy_stdin} | alter_database_stmt | {truncate_stmt} | {set_stmt} | {drop_sequence_stmt} | {alter_sequence_stmt} | {create_extension_stmt} | {drop_extension_stmt} | {alter_extension_stmt} {
   extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlExtensionStmtImpl"
   implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlExtensionStmt"
   override = true
