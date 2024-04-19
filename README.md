@@ -38,7 +38,7 @@ Latest version can be found [here](https://central.sonatype.com/artifact/com.fai
 
 ### Using a Snapshot Release
 
-A snapshot release is built and released on maven snapshot repo. To use a snapshot release, follow these steps:
+A snapshot release is built and released on the maven snapshot repo. To use a snapshot release, follow these steps:
 
 1. Add the maven snapshot repo to your project
 ```groovy
@@ -49,8 +49,8 @@ maven {
   }
 }
 ```
-2. Supply a SNAPSHOT version of the library. This automatic build process was introduced after `80dc790b417dedb12ae657b9112f0e6edfe4c5a1`.
-The version structure for these releases is `<latestVersion>-<sha>-SNAPSHOT`
+2. Supply a SNAPSHOT version of the library. The automatic build and release process was introduced after `80dc790b417dedb12ae657b9112f0e6edfe4c5a1`.
+The version structure for the releases is as follows `<latestVersion>-<sha>-SNAPSHOT`
 * The `latestVersion` is the latest release prior to the commit. For example if there is a release `1.0` and `1.1` and there are commits prior to 1.1 being released,
 the version for a snapshot release in between will be `1.0`. You can find the version by looking in the `gradle.properties` file.
 
@@ -58,8 +58,8 @@ For example, for the commit sha of `80dc790b417dedb12ae657b9112f0e6edfe4c5a1`, y
 
 https://github.com/Faire/sqldelight-cockroachdb-dialect/tree/80dc790b417dedb12ae657b9112f0e6edfe4c5a1 (note the hash at the end).
 
-There you access the `gradle.properties` file https://github.com/Faire/sqldelight-cockroachdb-dialect/blob/80dc790b417dedb12ae657b9112f0e6edfe4c5a1/gradle.properties which has `0.3.1` version.
+Then access the `gradle.properties` file https://github.com/Faire/sqldelight-cockroachdb-dialect/blob/80dc790b417dedb12ae657b9112f0e6edfe4c5a1/gradle.properties which has `0.3.1` version.
 
 Given these two values, you should use `0.3.1-80dc790b417dedb12ae657b9112f0e6edfe4c5a1-SNAPSHOT` as the version in [the previous section](#using-this-library)
 
-[Here is a sample PR](https://github.com/Faire/sqldelight-cockroachdb-dialect/pull/101)
+[Here is a sample PR](https://github.com/Faire/sqldelight-cockroachdb-dialect/pull/101) that is using a snapshot release for the dialect.
