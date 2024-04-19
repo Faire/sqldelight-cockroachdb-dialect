@@ -168,7 +168,8 @@ blob_data_type ::= 'BYTEA' | 'BLOB' | 'BYTES' {
   override = true
 }
 
-create_index_stmt ::= CREATE [ UNIQUE ] INDEX [ 'CONCURRENTLY' ] [ IF NOT EXISTS ] [ [ ansi_database_name DOT ] ansi_index_name ] ON ansi_table_name LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP [ index_using_hash ] [('STORING' | 'COVERING' | 'INCLUDE') LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP ] [ WHERE <<expr '-1'>> ] {
+create_index_stmt ::= CREATE [ UNIQUE ] INDEX [ 'CONCURRENTLY' ] [ IF NOT EXISTS ] [ [ ansi_database_name DOT ] ansi_index_name ] ON ansi_table_name
+  ( USING 'GIN' LP ansi_indexed_column [ {gin_operator_class_stmt} ] ( COMMA ansi_indexed_column [ {gin_operator_class_stmt} ] ) * RP | LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP [ index_using_hash ] [('STORING' | 'COVERING' | 'INCLUDE') LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP ] [ WHERE <<expr '-1'>> ] ) {
   extends = "com.faire.sqldelight.dialects.cockroachdb.grammar.mixins.CreateIndexMixin"
   implements = "com.alecstrong.sql.psi.core.psi.SqlCreateIndexStmt"
   pin = 5
