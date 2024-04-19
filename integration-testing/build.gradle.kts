@@ -16,7 +16,7 @@ sqldelight {
       packageName.set("com.faire.sqldelight.dialects.cockroachdb")
       deriveSchemaFromMigrations.set(true)
 
-      dialect(projects.cockroachdbDialect)
+      dialect("com.faire:sqldelight-cockroachdb-dialect:0.3.1-80dc790b417dedb12ae657b9112f0e6edfe4c5a1-SNAPSHOT")
 
       srcDirs(
         "src/main/resources/migration",
