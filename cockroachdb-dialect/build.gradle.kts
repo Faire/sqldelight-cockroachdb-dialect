@@ -24,6 +24,9 @@ dependencies {
     }
   }
 
+  testImplementation(libs.sqldelight.compiler.env)
+  // Remove with next sql-psi release https://github.com/AlecKazakova/sql-psi/pull/619
+  testImplementation(libs.sql.psi.enviroment)
   testFixturesApi(testFixtures(libs.sql.psi))
 }
 
