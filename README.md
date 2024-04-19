@@ -60,6 +60,6 @@ https://github.com/Faire/sqldelight-cockroachdb-dialect/tree/80dc790b417dedb12ae
 
 There you access the `gradle.properties` file https://github.com/Faire/sqldelight-cockroachdb-dialect/blob/80dc790b417dedb12ae657b9112f0e6edfe4c5a1/gradle.properties which has `0.3.1` version.
 
-Given these two values, you should use `0.3.1-80dc790b417dedb12ae657b9112f0e6edfe4c5a1-SNAPSHOT` as the version in [the previous section](#Using-this-Library)
+Given these two values, you should use `0.3.1-80dc790b417dedb12ae657b9112f0e6edfe4c5a1-SNAPSHOT` as the version in [the previous section](#using-this-library)
 
 [Here is a sample PR](https://github.com/Faire/sqldelight-cockroachdb-dialect/pull/101)
