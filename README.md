@@ -41,7 +41,7 @@ Latest version can be found [here](https://central.sonatype.com/artifact/com.fai
 A snapshot release is built and released on the maven snapshot repo. To use a snapshot release, follow these steps:
 
 1. Add the maven snapshot repo to your project
-```groovy
+```kotlin
 maven {
   url = uri("https://oss.sonatype.org/content/repositories/snapshots")
   mavenContent {
