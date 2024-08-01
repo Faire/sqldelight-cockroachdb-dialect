@@ -6,7 +6,7 @@ sql-psi = "0.4.9"
 sqldelight = "2.0.2"
 
 [libraries]
-assertj-core = { module = "org.assertj:assertj-core", version = "3.26.0" }
+assertj-core = { module = "org.assertj:assertj-core", version = "3.26.3" }
 intellij-analysis = { module = "com.jetbrains.intellij.platform:analysis-impl", version.ref = "idea" }
 postgres-jdbc-driver = { module = "org.postgresql:postgresql", version = "42.7.3" }
 sql-psi = { module = "com.alecstrong.sql.psi:core", version.ref = "sql-psi" }
