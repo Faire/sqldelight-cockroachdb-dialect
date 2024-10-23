@@ -14,7 +14,7 @@ sql-psi-enviroment = { module = "com.alecstrong.sql.psi:environment", version.re
 sqldelight-compiler-env = { module = "app.cash.sqldelight:compiler-env", version.ref = "sqldelight" }
 sqldelight-jdbc-driver = { module = "app.cash.sqldelight:jdbc-driver", version.ref = "sqldelight" }
 sqldelight-postgresql-dialect = { module = "app.cash.sqldelight:postgresql-dialect", version.ref = "sqldelight" }
-testcontainers-cockroachdb = { module = "org.testcontainers:cockroachdb", version = "1.20.1" }
+testcontainers-cockroachdb = { module = "org.testcontainers:cockroachdb", version = "1.20.3" }
 
 [plugins]
 grammar-kit-composer = { id = "com.alecstrong.grammar.kit.composer", version = "0.1.12" }
