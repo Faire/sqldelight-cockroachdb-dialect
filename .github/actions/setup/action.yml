@@ -1,0 +1,15 @@
+name: Setup
+description: Set up repo, Java & Gradle
+
+runs:
+  using: composite
+  steps:
+    - name: Setup java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+    - name: Setup gradle
+      uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: 'wrapper'
