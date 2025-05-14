@@ -1,8 +1,5 @@
 import com.vanniktech.maven.publish.SonatypeHost
 
-group = "com.faire"
-version = "0.3.1"
-
 plugins {
   alias(libs.plugins.grammar.kit.composer)
   alias(libs.plugins.maven.publishing)
