@@ -12,5 +12,13 @@ CREATE TABLE drop_index_two(
   INDEX idx_foo (foo)
 );
 
+CREATE TABLE drop_unique_index(
+  id INT NOT NULL,
+  uid INT NOT NULL,
+  PRIMARY KEY(id),
+  UNIQUE INDEX idx_uid (uid)
+);
+
 DROP INDEX drop_index_one@idx_foo;
-DROP INDEX drop_index_two@idx_foo;
+DROP INDEX IF EXISTS drop_index_two@idx_foo;
+DROP INDEX drop_unique_index@idx_uid CASCADE;
