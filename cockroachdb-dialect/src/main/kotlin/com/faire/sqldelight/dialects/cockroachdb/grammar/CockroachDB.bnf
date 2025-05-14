@@ -13,6 +13,7 @@
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.ADD"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.AS"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.BY"
+    "static com.alecstrong.sql.psi.core.psi.SqlTypes.CASCADE"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.CREATE"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.COLLATE"
     "static com.alecstrong.sql.psi.core.psi.SqlTypes.COMMA"
@@ -185,7 +186,7 @@ private postgres_generated_clause ::= GENERATED ( (ALWAYS AS LP <<expr '-1'>> RP
 
 private cockroach_generated_clause ::= AS LP <<expr '-1'>> RP ('STORED' | 'VIRTUAL')
 
-drop_index_stmt ::= DROP INDEX [ IF EXISTS ] [ ansi_table_name '@' ] ansi_index_name {
+drop_index_stmt ::= DROP INDEX [ IF EXISTS ] [ ansi_table_name '@' ] ansi_index_name [ CASCADE ] {
   mixin = "com.faire.sqldelight.dialects.cockroachdb.grammar.mixins.DropIndexMixin"
   implements = "com.alecstrong.sql.psi.core.psi.SqlDropIndexStmt"
   pin = 2

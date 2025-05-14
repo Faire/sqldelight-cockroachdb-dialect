@@ -5,6 +5,8 @@ plugins {
 dependencies {
   api(libs.sqldelight.jdbc.driver)
 
+  testRuntimeOnly(libs.slf4j.simple)
+
   testImplementation(libs.assertj.core)
   testImplementation(libs.postgres.jdbc.driver)
   testImplementation(libs.testcontainers.cockroachdb)
