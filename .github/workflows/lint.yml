@@ -7,14 +7,6 @@ jobs:
   lint-project:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout project sources
-      uses: actions/checkout@v3
-    - uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-        cache: 'gradle'
+    - uses: ./.github/actions/setup
     - name: Lint Project
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: spotlessCheck
+      run: ./gradlew spotlessCheck
