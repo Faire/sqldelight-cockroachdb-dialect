@@ -51,7 +51,7 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
       "create-index-collision",
       // Excluded since our error message is different;
       // we've copied the test case, but without the failure case, into `multiple-column-where-ansi`.
-      "multiple-column-where"
+      "multiple-column-where",
     )
 
     private val excludedPgSqlFixtures = listOf(
