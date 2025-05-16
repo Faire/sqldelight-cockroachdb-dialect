@@ -24,6 +24,7 @@ import java.io.File
 @RunWith(Parameterized::class)
 class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(name, fixtureRoot) {
   override val replaceRules = arrayOf(
+    // TODO: document why
     "INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT" to "SERIAL NOT NULL PRIMARY KEY",
     "AUTOINCREMENT" to "",
     "?1" to "?",
@@ -48,6 +49,15 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
       "create-if-not-exists",
       // Excluded since we're not validating indices when creating them.
       "create-index-collision",
+      // Excluded since our error message is different;
+      // we've copied the test case, but without the failure case, into `multiple-column-where-ansi`.
+      "multiple-column-where"
+    )
+
+    private val excludedPgSqlFixtures = listOf(
+      // Excluded since we're not validating indices when creating them;
+      // we've copied the test case, but without error assertions, into `create-index-pgsql`.
+      "create-index",
     )
 
     // Used by Parameterized JUnit runner reflectively.
@@ -57,9 +67,10 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
       val extraAnsiFixtures = ansiFixtures
         .filter { (it[0] as String) !in excludedAnsiFixtures }
 
-      return CockroachDBTestFixtures.fixtures +
-        PostgresqlTestFixtures.fixtures +
-        extraAnsiFixtures
+      val extraPgSqlFixtures = PostgresqlTestFixtures.fixtures
+        .filter { (it[0] as String) !in excludedPgSqlFixtures }
+
+      return CockroachDBTestFixtures.fixtures + extraPgSqlFixtures + extraAnsiFixtures
     }
   }
 }

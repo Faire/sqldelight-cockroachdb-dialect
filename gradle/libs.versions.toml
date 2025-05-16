@@ -2,16 +2,15 @@
 idea = "231.9392.1"
 kotlin = "2.0.10"
 spotless = "7.0.3"
-sql-psi = "0.4.9"
-sqldelight = "2.0.2"
+sql-psi = "0.5.2"
+sqldelight = "2.1.0"
 
 [libraries]
 assertj-core = { module = "org.assertj:assertj-core", version = "3.27.3" }
 intellij-analysis = { module = "com.jetbrains.intellij.platform:analysis-impl", version.ref = "idea" }
 postgres-jdbc-driver = { module = "org.postgresql:postgresql", version = "42.7.5" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version = "2.0.17" }
-sql-psi = { module = "com.alecstrong.sql.psi:core", version.ref = "sql-psi" }
-sql-psi-enviroment = { module = "com.alecstrong.sql.psi:environment", version.ref = "sql-psi" }
+sql-psi = { module = "app.cash.sql-psi:core", version.ref = "sql-psi" }
 sqldelight-compiler-env = { module = "app.cash.sqldelight:compiler-env", version.ref = "sqldelight" }
 sqldelight-jdbc-driver = { module = "app.cash.sqldelight:jdbc-driver", version.ref = "sqldelight" }
 sqldelight-postgresql-dialect = { module = "app.cash.sqldelight:postgresql-dialect", version.ref = "sqldelight" }
