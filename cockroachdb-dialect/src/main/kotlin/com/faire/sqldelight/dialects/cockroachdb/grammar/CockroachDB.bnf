@@ -1,5 +1,5 @@
 {
-  // Specify the parent parser.
+  // Specify the parent parser; our grammar hence must base on PostgreSql.bnf from sqldelight.
   overrides="app.cash.sqldelight.dialects.postgresql.grammar.PostgreSqlParser"
   elementTypeClass = "com.alecstrong.sql.psi.core.SqlElementType"
 
@@ -104,7 +104,8 @@ overrides ::= table_constraint
 index_using_hash ::= USING 'HASH' [ WITH LP 'bucket_count' EQ ansi_signed_number RP ]
 
 table_constraint ::= table_family_constraint | [ CONSTRAINT ansi_identifier ] (
-  ( PRIMARY KEY | [UNIQUE] INDEX | UNIQUE ) [ansi_index_name] LP ansi_indexed_column [ LP ansi_signed_number RP ] ( COMMA ansi_indexed_column [ LP ansi_signed_number RP ] ) * RP [ index_using_hash ] [('STORING' | 'COVERING' | 'INCLUDE') LP ansi_column_name ( COMMA ansi_column_name ) * RP ] [ WHERE <<expr '-1'>> ] ansi_conflict_clause [comment_type] |
+  ( PRIMARY KEY | [UNIQUE] INDEX | UNIQUE ) [ansi_index_name] LP ansi_indexed_column [ LP ansi_signed_number RP ] ( COMMA ansi_indexed_column [ LP ansi_signed_number RP ] ) * RP [ index_using_hash ] [('STORING' | 'COVERING' | 'INCLUDE') LP ansi_column_name ( COMMA ansi_column_name ) * RP ] [ WHERE <<expr '-1'>> ] [ansi_conflict_clause] [comment_type] |
+  'EXCLUDE' USING {index_method} LP <<expr '-1'>> WITH {constraint_exclude_operators} ( COMMA <<expr '-1'>> WITH {constraint_exclude_operators} ) * RP [ WHERE LP <<expr '-1'>> RP ] |
   ansi_check_constraint |
   FOREIGN KEY LP ansi_column_name ( COMMA ansi_column_name ) * RP ansi_foreign_key_clause
 ) {
@@ -116,9 +117,9 @@ table_constraint ::= table_family_constraint | [ CONSTRAINT ansi_identifier ] (
 table_family_constraint ::= 'FAMILY' [ ansi_identifier ] LP ansi_column_name ( COMMA ansi_column_name ) * RP
 
 column_constraint ::= alter_table_add_column_family_constraint | [ CONSTRAINT ansi_identifier ] (
-  PRIMARY KEY [ index_using_hash ] [ ASC | DESC ] ansi_conflict_clause |
-  [ NOT ] NULL ansi_conflict_clause |
-  UNIQUE ansi_conflict_clause |
+  PRIMARY KEY [ index_using_hash ] [ ASC | DESC ] [ansi_conflict_clause] |
+  [ NOT ] NULL [ansi_conflict_clause] |
+  UNIQUE [ansi_conflict_clause] |
   ansi_check_constraint |
   generated_clause |
   {default_constraint} |
@@ -169,8 +170,10 @@ blob_data_type ::= 'BYTEA' | 'BLOB' | 'BYTES' {
   override = true
 }
 
-create_index_stmt ::= CREATE [ UNIQUE ] INDEX [ 'CONCURRENTLY' ] [ IF NOT EXISTS ] [ [ ansi_database_name DOT ] ansi_index_name ] ON ansi_table_name
-  ( USING 'GIN' LP ansi_indexed_column [ {gin_operator_class_stmt} ] ( COMMA ansi_indexed_column [ {gin_operator_class_stmt} ] ) * RP | LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP [ index_using_hash ] [('STORING' | 'COVERING' | 'INCLUDE') LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP ] [ WHERE <<expr '-1'>> ] ) {
+create_index_stmt ::= CREATE [ UNIQUE ] INDEX [ 'CONCURRENTLY' ] [ IF NOT EXISTS ] [ [ ansi_database_name DOT ] ansi_index_name ] ON ansi_table_name (
+  USING {index_method} LP ansi_indexed_column [ {operator_class_stmt} ] ( COMMA ansi_indexed_column [ {operator_class_stmt} ] ) * RP [ {with_storage_parameter} ] |
+  LP ansi_indexed_column [ {operator_class_stmt} ] ( COMMA ansi_indexed_column [ {operator_class_stmt} ] ) * RP [ index_using_hash ] [ ('STORING' | 'COVERING' | 'INCLUDE') LP ansi_indexed_column ( COMMA ansi_indexed_column ) * RP ] [ WHERE <<expr '-1'>> ]
+) {
   extends = "com.faire.sqldelight.dialects.cockroachdb.grammar.mixins.CreateIndexMixin"
   implements = "com.alecstrong.sql.psi.core.psi.SqlCreateIndexStmt"
   pin = 5
@@ -208,6 +211,7 @@ alter_table_rules ::= (
   ansi_alter_table_add_column
   | ansi_alter_table_rename_table
   | {alter_table_rename_column}
+  | {alter_table_drop_constraint}
   | {alter_table_drop_column}
   | {alter_table_add_constraint}
   | alter_table_alter_primary_key
