@@ -1,5 +1,3 @@
-import com.vanniktech.maven.publish.SonatypeHost
-
 plugins {
   alias(libs.plugins.grammar.kit.composer)
   alias(libs.plugins.maven.publishing)
@@ -26,7 +24,7 @@ dependencies {
 }
 
 mavenPublishing {
-  publishToMavenCentral(SonatypeHost.DEFAULT, true)
+  publishToMavenCentral()
   signAllPublications()
 
   pom {
