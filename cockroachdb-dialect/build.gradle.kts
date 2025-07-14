@@ -24,7 +24,7 @@ dependencies {
 }
 
 mavenPublishing {
-  publishToMavenCentral()
+  publishToMavenCentral(true)
   signAllPublications()
 
   pom {
