@@ -2,7 +2,7 @@
 idea = "231.9392.1"
 kotlin = "2.0.10"
 spotless = "7.2.1"
-sql-psi = "0.5.2"
+sql-psi = "0.7.0"
 sqldelight = "2.1.0"
 
 [libraries]
