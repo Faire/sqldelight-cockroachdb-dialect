@@ -3,7 +3,7 @@ idea = "231.9392.1"
 kotlin = "2.0.10"
 spotless = "8.0.0"
 sql-psi = "0.5.2"
-sqldelight = "2.1.0"
+sqldelight = "2.2.1"
 
 [libraries]
 assertj-core = { module = "org.assertj:assertj-core", version = "3.27.6" }
