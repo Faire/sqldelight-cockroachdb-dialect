@@ -85,6 +85,9 @@
     "static com.alecstrong.sql.psi.core.SqlParserUtil.tableNameExt"
     "static com.alecstrong.sql.psi.core.SqlParser.table_name_real"
 
+    "static com.alecstrong.sql.psi.core.SqlParserUtil.tableAliasExt"
+    "static com.alecstrong.sql.psi.core.SqlParser.table_alias_real"
+
     "static com.alecstrong.sql.psi.core.SqlParserUtil.collationNameExt"
     "static com.alecstrong.sql.psi.core.SqlParser.collation_name_real"
   ]
@@ -100,6 +103,7 @@ overrides ::= table_constraint
   | generated_clause
   | alter_table_rules
   | extension_stmt
+  | table_or_subquery
 
 index_using_hash ::= USING 'HASH' [ WITH LP 'bucket_count' EQ ansi_signed_number RP ]
 
@@ -139,6 +143,19 @@ alter_table_add_column_family_constraint ::= (
     )
   )
 )
+
+table_or_subquery ::= ( {unnest_table_function} LP <<expr '-1'>> ( COMMA <<expr '-1'>> ) * RP [ AS {table_function_alias_name} ]
+                      | [ ansi_database_name DOT ] ansi_table_name [ opt_index_flags ] [ [ AS ] ansi_table_alias ]
+                      | LP ( {table_or_subquery} ( COMMA {table_or_subquery} ) * | {join_clause} ) RP
+                      | LP {compound_select_stmt} RP [ [ AS ] ansi_table_alias ] ) {
+  extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlTableOrSubqueryImpl"
+  implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlTableOrSubquery"
+  override = true
+}
+
+opt_index_flags ::= '@' (ansi_index_name | '{' index_flags_param [ COMMA index_flags_param ] '}' )
+
+index_flags_param ::= ( 'FORCE_INDEX' EQ ansi_index_name | 'NO_INDEX_JOIN' | 'NO_ZIGZAG_JOIN' | 'NO_FULL_SCAN' | 'AVOID_FULL_SCAN' | 'FORCE_ZIGZAG' EQ ansi_index_name )
 
 int_data_type ::= 'INT4' {
   extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlIntDataTypeImpl"
@@ -281,4 +298,5 @@ private ansi_indexed_column ::= <<indexedColumnExt <<indexed_column_real>>>>
 private ansi_index_name ::= <<indexNameExt <<index_name_real>>>>
 private ansi_signed_number ::= <<signedNumberExt <<signed_number_real>>>>
 private ansi_table_name ::= <<tableNameExt <<table_name_real>>>>
+private ansi_table_alias ::= <<tableAliasExt <<table_alias_real>>>>
 private ansi_collation_name ::= <<collationNameExt <<collation_name_real>>>>
