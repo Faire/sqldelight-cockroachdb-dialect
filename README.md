@@ -15,6 +15,7 @@ This doesn't fully cover the whole SQL syntax of CockroachDB. It's a work in pro
 * Supports storing index
 * Supports unnamed index
   * Index tracking and validation have been disabled until there's a way to track unnamed indexes
+* Supports force index selection
 * Blob types (BYTEA, BLOB, BYTES)
 * [Integer types](https://www.cockroachlabs.com/docs/stable/int.html) (32bit and 64bit aliases)
 * [Specify precision to TIMESTAMPTZ](https://www.cockroachlabs.com/docs/stable/timestamp.html#precision)
