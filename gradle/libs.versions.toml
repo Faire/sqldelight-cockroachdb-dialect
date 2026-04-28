@@ -1,6 +1,6 @@
 [versions]
 idea = "231.9392.1"
-kotlin = "2.0.10"
+kotlin = "2.3.20"
 spotless = "8.4.0"
 sql-psi = "0.5.2"
 sqldelight = "2.1.0"
