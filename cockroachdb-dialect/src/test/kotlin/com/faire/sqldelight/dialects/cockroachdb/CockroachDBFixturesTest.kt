@@ -53,8 +53,10 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
       // we've copied the test case, but without the failure case, into `multiple-column-where-ansi`.
       "multiple-column-where",
       // The following ANSI fixtures use SQLite-style `CREATE TRIGGER ... BEGIN ... END;` syntax,
-      // which is not parseable by the PostgreSQL dialect (which we inherit from). PostgreSQL
-      // (and CockroachDB) use `CREATE TRIGGER ... EXECUTE FUNCTION fn();` form instead.
+      // which is not parseable by the PostgreSQL dialect (which we inherit from) and is not
+      // supported by CockroachDB. CockroachDB's `CREATE TRIGGER` uses the PostgreSQL-style
+      // `EXECUTE FUNCTION fn()` form (see https://www.cockroachlabs.com/docs/stable/create-trigger),
+      // so these SQLite-flavored fixtures cannot be supported as-written.
       "create-trigger-collision",
       "create-trigger-docid",
       "create-trigger-raise",
@@ -65,8 +67,9 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
       "trigger-migration",
       "trigger-new-in-expression",
       "update-view-with-trigger",
-      // `DROP TRIGGER IF EXISTS test3;` (without `ON tablename`) is SQLite syntax. The PostgreSQL
-      // dialect requires `DROP TRIGGER ... ON tablename`.
+      // `DROP TRIGGER IF EXISTS test3;` (no `ON tablename`) is SQLite syntax. The PostgreSQL
+      // dialect (and CockroachDB; see https://www.cockroachlabs.com/docs/stable/drop-trigger)
+      // require `DROP TRIGGER ... ON tablename`.
       "if-not-exists",
     )
 
@@ -74,24 +77,56 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
       // Excluded since we're not validating indices when creating them;
       // we've copied the test case, but without error assertions, into `create-index-pgsql`.
       "create-index",
-      // The following PostgreSQL fixtures exercise statements that are part of PostgreSQL's
-      // `extension_stmt` rule but which CockroachDB's `extension_stmt` override does not
-      // currently include (CREATE/ALTER/DROP POLICY, CREATE TYPE/ENUM, CREATE/DROP FUNCTION,
-      // COMMENT ON, CREATE/DROP TRIGGER, CREATE OR REPLACE TRIGGER). Adding them is a future
-      // expansion of this dialect; for now we exclude these inherited tests.
+      // The following PostgreSQL fixtures exercise statements added to PostgreSQL's
+      // `extension_stmt` / `alter_table_rules` rules in sqldelight 2.2.x / 2.3.x. CockroachDB's
+      // grammar overrides those rules without these productions, so they currently fail to
+      // parse. Each is supported by CockroachDB itself and would be a worthwhile follow-up.
+      //
+      // TODO(grammar): Add CREATE/ALTER/DROP POLICY to the cockroach `extension_stmt` rule.
+      // CockroachDB supports row-level security policies as of v25.2 with PostgreSQL-compatible
+      // syntax. https://www.cockroachlabs.com/docs/stable/create-policy
       "alter-policy",
-      "comment-on",
-      "create-enum",
-      "create-or-replace-trigger",
       "create-policy",
-      "drop-function",
       "drop-policy",
+      // TODO(grammar): Add COMMENT ON to the cockroach `extension_stmt` rule. CockroachDB
+      // supports `COMMENT ON DATABASE/SCHEMA/TYPE/TABLE/COLUMN/INDEX/CONSTRAINT` (note: VIEW is
+      // not currently listed in the CockroachDB docs, so the upstream fixture's
+      // `COMMENT ON VIEW VSomeTable IS '...'` line may need a dialect-specific variant).
+      // https://www.cockroachlabs.com/docs/stable/comment-on
+      "comment-on",
+      // TODO(grammar): Add CREATE/ALTER/DROP TYPE (enum) to the cockroach `extension_stmt`
+      // rule. CockroachDB supports `CREATE TYPE name AS ENUM (...)`, `ALTER TYPE`, and
+      // `DROP TYPE` with PostgreSQL-compatible syntax.
+      // https://www.cockroachlabs.com/docs/stable/create-type
+      "create-enum",
+      // TODO(grammar): Add CREATE/DROP FUNCTION to the cockroach `extension_stmt` rule.
+      // CockroachDB has supported user-defined functions since v22.2.
+      // https://www.cockroachlabs.com/docs/stable/create-function
+      // https://www.cockroachlabs.com/docs/stable/drop-function
+      "drop-function",
+      // TODO(grammar): Add CREATE TRIGGER / CREATE OR REPLACE TRIGGER / DROP TRIGGER to the
+      // cockroach grammar. CockroachDB supports triggers (since v24.3 LTS) with the
+      // PostgreSQL-style `EXECUTE FUNCTION fn()` form, and `CREATE OR REPLACE TRIGGER` since
+      // v26.2. The upstream fixtures should pass once these productions are inherited.
+      // https://www.cockroachlabs.com/docs/stable/create-trigger
+      // https://www.cockroachlabs.com/docs/stable/drop-trigger
+      "create-or-replace-trigger",
       "drop-trigger",
-      // The following PostgreSQL fixtures exercise statements that are part of PostgreSQL's
-      // `alter_table_rules` but which CockroachDB's override of `alter_table_rules` does not
-      // currently include. CockroachDB has its own `alter_table_set_storage_options` for the
-      // SET (k=v) form, but its semantics differ from PostgreSQL's `SET (storage_param=...)`.
+      // TODO(grammar): Add `ALTER TABLE ... { ENABLE | DISABLE } ROW LEVEL SECURITY` to the
+      // cockroach `alter_table_rules` rule. CockroachDB supports both subcommands as of v25.2.
+      // The upstream fixture also exercises `FORCE ROW LEVEL SECURITY`, which is not currently
+      // documented as supported by CockroachDB; that line may need a dialect-specific variant.
+      // https://www.cockroachlabs.com/docs/stable/alter-table#enable-row-level-security
       "alter-table-row-level-security",
+      // TODO(grammar): Add support for PostgreSQL's `ALTER TABLE ... SET (param = value)` /
+      // `RESET (...)` storage-parameter form to the cockroach `alter_table_rules` rule.
+      // CockroachDB does support a SET (storage parameter) form on ALTER TABLE, although the
+      // set of accepted parameters differs from PostgreSQL (CockroachDB-specific TTL/stats
+      // parameters are real, while several PostgreSQL parameters such as `fillfactor` and
+      // `autovacuum_vacuum_scale_factor` are parsed as no-ops or unsupported). Cockroach's
+      // current `alter_table_set_storage_options` rule covers a different cockroach-only
+      // `WITH (k=v)` form.
+      // https://www.cockroachlabs.com/docs/stable/alter-table
       "alter-table-set-storage-parameter",
     )
 
