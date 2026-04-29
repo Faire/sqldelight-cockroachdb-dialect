@@ -100,6 +100,7 @@ overrides ::= table_constraint
   | string_data_type
   | date_data_type
   | blob_data_type
+  | enum_data_type
   | generated_clause
   | alter_table_rules
   | extension_stmt
@@ -184,6 +185,15 @@ date_data_type ::= 'DATE' | (('TIME' | 'TIMESTAMP') [ LP ansi_signed_number RP ]
 blob_data_type ::= 'BYTEA' | 'BLOB' | 'BYTES' {
   extends = "app.cash.sqldelight.dialects.postgresql.grammar.psi.impl.PostgreSqlBlobDataTypeImpl"
   implements = "app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlBlobDataType"
+  override = true
+}
+
+// PostgreSQL added enum_data_type as an unrestricted identifier wildcard. That makes any token
+// (e.g. FAMILY in a CockroachDB family constraint) eligible as a column type, which prevents the
+// parser from falling back to table_constraint alternatives. CockroachDB supports CREATE TYPE AS
+// ENUM but this dialect does not currently parse it, so we override the production with a never-
+// matching placeholder token.
+enum_data_type ::= 'COCKROACHDB_ENUM_DATA_TYPE_DISABLED_PLACEHOLDER' {
   override = true
 }
 

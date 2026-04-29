@@ -52,12 +52,47 @@ class CockroachDBFixturesTest(name: String, fixtureRoot: File) : FixturesTest(na
       // Excluded since our error message is different;
       // we've copied the test case, but without the failure case, into `multiple-column-where-ansi`.
       "multiple-column-where",
+      // The following ANSI fixtures use SQLite-style `CREATE TRIGGER ... BEGIN ... END;` syntax,
+      // which is not parseable by the PostgreSQL dialect (which we inherit from). PostgreSQL
+      // (and CockroachDB) use `CREATE TRIGGER ... EXECUTE FUNCTION fn();` form instead.
+      "create-trigger-collision",
+      "create-trigger-docid",
+      "create-trigger-raise",
+      "create-trigger-success",
+      "create-trigger-validation-failures",
+      "rowid-triggers",
+      "timestamp-literals",
+      "trigger-migration",
+      "trigger-new-in-expression",
+      "update-view-with-trigger",
+      // `DROP TRIGGER IF EXISTS test3;` (without `ON tablename`) is SQLite syntax. The PostgreSQL
+      // dialect requires `DROP TRIGGER ... ON tablename`.
+      "if-not-exists",
     )
 
     private val excludedPgSqlFixtures = listOf(
       // Excluded since we're not validating indices when creating them;
       // we've copied the test case, but without error assertions, into `create-index-pgsql`.
       "create-index",
+      // The following PostgreSQL fixtures exercise statements that are part of PostgreSQL's
+      // `extension_stmt` rule but which CockroachDB's `extension_stmt` override does not
+      // currently include (CREATE/ALTER/DROP POLICY, CREATE TYPE/ENUM, CREATE/DROP FUNCTION,
+      // COMMENT ON, CREATE/DROP TRIGGER, CREATE OR REPLACE TRIGGER). Adding them is a future
+      // expansion of this dialect; for now we exclude these inherited tests.
+      "alter-policy",
+      "comment-on",
+      "create-enum",
+      "create-or-replace-trigger",
+      "create-policy",
+      "drop-function",
+      "drop-policy",
+      "drop-trigger",
+      // The following PostgreSQL fixtures exercise statements that are part of PostgreSQL's
+      // `alter_table_rules` but which CockroachDB's override of `alter_table_rules` does not
+      // currently include. CockroachDB has its own `alter_table_set_storage_options` for the
+      // SET (k=v) form, but its semantics differ from PostgreSQL's `SET (storage_param=...)`.
+      "alter-table-row-level-security",
+      "alter-table-set-storage-parameter",
     )
 
     // Used by Parameterized JUnit runner reflectively.
